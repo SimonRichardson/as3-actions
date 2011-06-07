@@ -3,14 +3,9 @@ package org.osflash.actions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public class ActionSequence implements IActionSequence, IAction
+	public class ActionSequence extends Action implements IActionSequence
 	{
-		
-		/**
-		 * @private
-		 */
-		private var _id : String;
-		
+				
 		/**
 		 * @private
 		 */
@@ -18,12 +13,13 @@ package org.osflash.actions
 
 		public function ActionSequence()
 		{
+			super();
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function commit() : void
+		override public function commit() : void
 		{
 			if(null == _actions)
 				ActionError.throwError(ActionError.NO_ACTIONS_ADDED_IN_SEQUENCE);
@@ -39,7 +35,7 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */
-		public function revert() : void
+		override public function revert() : void
 		{
 			if(null == _actions)
 				ActionError.throwError(ActionError.NO_ACTIONS_ADDED_IN_SEQUENCE);
@@ -167,13 +163,7 @@ package org.osflash.actions
 		{
 			return null != _actions ? _actions.length : 0;
 		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		public function get id() : String { return _id; }
-		public function set id(value : String) : void { _id = value; }
-		
+				
 		/**
 		 * @private
 		 */

@@ -7,6 +7,10 @@ package org.osflash.actions
 	public interface IActionManager extends IActionInputOutput
 	{
 		
+		function registerAction(actionClass : Class) : void;
+		
+		function unregisterAction(actionClass : Class) : void; 
+		
 		function undo() : Boolean;
 		
 		function redo() : Boolean;

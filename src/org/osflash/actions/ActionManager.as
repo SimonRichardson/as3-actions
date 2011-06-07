@@ -11,6 +11,20 @@ package org.osflash.actions
 		public function ActionManager()
 		{
 		}
+
+		/**
+		 * @inheritDoc
+		 */		
+		public function registerAction(actionClass : Class) : void
+		{
+		}
+
+		/**
+		 * @inheritDoc
+		 */
+		public function unregisterAction(actionClass : Class) : void
+		{
+		}
 		
 		/**
 		 * Commit a action to the manager, this will commit it to the history.
