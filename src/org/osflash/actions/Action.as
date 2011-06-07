@@ -22,6 +22,7 @@ package org.osflash.actions
 		 */
 		public function commit() : void
 		{
+			throw new Error('Override Action commit method.');
 		}
 
 		/**
@@ -29,6 +30,7 @@ package org.osflash.actions
 		 */
 		public function revert() : void
 		{
+			throw new Error('Override Action revert method.');
 		}
 		
 		/**

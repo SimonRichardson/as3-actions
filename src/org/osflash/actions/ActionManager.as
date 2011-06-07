@@ -1,7 +1,5 @@
 package org.osflash.actions
 {
-	import org.osflash.actions.stream.IActionInputStream;
-	import org.osflash.actions.stream.IActionOutputStream;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
@@ -9,20 +7,6 @@ package org.osflash.actions
 	{
 
 		public function ActionManager()
-		{
-		}
-
-		/**
-		 * @inheritDoc
-		 */		
-		public function registerAction(actionClass : Class) : void
-		{
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function unregisterAction(actionClass : Class) : void
 		{
 		}
 		
@@ -41,20 +25,6 @@ package org.osflash.actions
 		 * @param action IAction to revert
 		 */
 		public function revert() : void
-		{
-		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		public function read(stream : IActionInputStream) : void
-		{
-		}
-		
-		/**
-		 * @inheritDoc
-		 */
-		public function write(steam : IActionOutputStream) : void
 		{
 		}
 		
