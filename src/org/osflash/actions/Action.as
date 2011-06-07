@@ -39,6 +39,7 @@ package org.osflash.actions
 		 */
 		public function describe(stream : IActionOutputStream) : void
 		{
+			stream.writeUnsignedInt(0);
 			stream.writeUTF(id);
 		}
 		

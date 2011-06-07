@@ -89,11 +89,11 @@ package org.osflash.actions
 					throw new ActionError('Error trying to remove a action, that does not ' +
 														 			'correspond to given action');
 					break;
-				case ACTION_ALREADY_EXISTS:
+				case ACTION_CLASS_ALREADY_EXISTS:
 					throw new ActionError('ActionClass already exists in the current ' +
 																				'IActionRegistery');
 					break;
-				case ACTION_DOES_NOT_EXIST:
+				case ACTION_CLASS_DOES_NOT_EXIST:
 					throw new ActionError('ActionClass does not exist in the current ' + 
 																				'IActionRegistery');
 					break;

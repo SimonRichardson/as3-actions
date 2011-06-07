@@ -92,6 +92,58 @@ package org.osflash.actions
 		}
 		
 		/**
+		 * @inheritDoc
+		 */
+		public function containsAction(action : IAction) : Boolean
+		{
+			var item : Class;
+			if(action is IActionSequence)
+			{
+				var valid : Boolean = false;
+				for each(item in _classes)
+				{
+					if(action is item)
+					{
+						valid = true;
+						break;
+					}
+				}
+				
+				if(!valid) return false;
+				
+				const sequence : IActionSequence = IActionSequence(action);
+				const total : int = sequence.numActions;
+				for(var i : int = 0; i < total; i++)
+				{
+					valid = false;
+					
+					const node : IAction = sequence.getAt(i);
+					for each(item in _classes)
+					{
+						if(node is item)
+						{
+							valid = true;
+							break;
+						}
+					}
+					
+					if(!valid) return false;
+				}
+				
+				return true;
+			}
+			else
+			{
+				for each(item in _classes)
+				{
+					if(action is item) return true;
+				}
+			}
+			
+			return false;
+		}
+		
+		/**
 		 * @private
 		 */
 		private function verify(actionClass : Class) : Boolean

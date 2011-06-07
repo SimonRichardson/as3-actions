@@ -27,9 +27,16 @@ package org.osflash.actions
 		public function test_setup() : void
 		{
 			manager.register(ActionIntType);
+			manager.register(ActionSequence);
 			
 			const action : IAction = new ActionIntType();
 			manager.dispatch(action);
+			
+			const sequence : IActionSequence = new ActionSequence();
+			sequence.add(new ActionIntType());
+			sequence.add(new ActionIntType());
+			sequence.add(new ActionIntType());
+			manager.dispatch(sequence);
 						
 			trace(describeActions(manager));
 		}

@@ -106,7 +106,7 @@ package org.osflash.actions.stream
 
 		public function toString() : String
 		{
-			return "";
+			return '';
 		}
 	}
 }

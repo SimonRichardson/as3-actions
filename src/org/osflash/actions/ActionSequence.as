@@ -1,5 +1,6 @@
 package org.osflash.actions
 {
+	import org.osflash.actions.stream.IActionOutputStream;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
@@ -154,6 +155,23 @@ package org.osflash.actions
 				if(action.id == id) return action;
 			}
 			return null;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */	
+		override public function describe(stream : IActionOutputStream) : void
+		{
+			const total : int = _actions.length;
+			
+			stream.writeUnsignedInt(total);
+			stream.writeUTF(id);
+			
+			for(var i : int = 0; i < total; i++)
+			{
+				const action : IAction = _actions[i];
+				action.describe(stream);
+			}
 		}
 
 		/**

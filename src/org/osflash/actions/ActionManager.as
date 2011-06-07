@@ -99,6 +99,9 @@ package org.osflash.actions
 		 */
 		public function commit(action : IAction) : void
 		{
+			if(!_registry.containsAction(action))
+				ActionError.throwError(ActionError.ACTION_CLASS_DOES_NOT_EXIST);
+			
 			action.commit();
 			
 			_commitSignal.dispatch(action);
@@ -111,6 +114,9 @@ package org.osflash.actions
 		 */
 		public function revert(action : IAction) : void
 		{
+			if(!_registry.containsAction(action))
+				ActionError.throwError(ActionError.ACTION_CLASS_DOES_NOT_EXIST);
+			
 			action.revert();
 			
 			_revertSignal.dispatch(action);
@@ -191,19 +197,17 @@ package org.osflash.actions
 			
 			const valid : Boolean = (null != _current);
 			stream.writeBoolean(valid);
+			
 			// Write the current id, if there is one
 			if(valid)
-			{
 				stream.writeUTF(_current.id);
-			}
 			
 			stream.writeUnsignedInt(total);
 			
 			for(var i : int = 0; i<total; i++)
 			{
 				const action : IAction = _actions[i];
-				
-				stream.writeUTF(action.id);
+				action.describe(stream);
 			}
 		}
 		

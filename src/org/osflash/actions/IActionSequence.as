@@ -3,7 +3,7 @@ package org.osflash.actions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public interface IActionSequence
+	public interface IActionSequence extends IAction
 	{
 		
 		function add(action : IAction) : IAction;

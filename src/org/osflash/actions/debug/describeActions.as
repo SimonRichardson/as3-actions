@@ -24,9 +24,25 @@ package org.osflash.actions.debug
 		const total : int = input.readUnsignedInt();
 		for(var i : int = 0; i < total; i++)
 		{
+			const num : int = input.readUnsignedInt();
 			const item : String = input.readUTF();
-			result += '[' + ((item == current) ? '>' : ' ') + '] Action (id="' +item + '")';
+			
+			result += '[' + ((item == current) ? '>' : ' ') + '] Action (id="' + item + '")';
 			result += '\n';  
+						
+			for(var j : int = 0; j < num; j++)
+			{
+				// TODO : more recursion.
+				const subnum : int = input.readUnsignedInt();
+				if(subnum > 0)
+					throw new Error('Missing implementation');
+				
+				const subItem : String = input.readUTF();
+				
+				result += '\t[' + ((item == current) ? '>' : ' '); 
+				result += '] Action (id="' + subItem + '")';
+				result += '\n';
+			}
 		}
 		
 		return result;

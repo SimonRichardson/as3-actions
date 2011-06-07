@@ -11,5 +11,7 @@ package org.osflash.actions
 		function remove(actionClass : Class) : void;
 		
 		function contains(actionClass : Class) : Boolean;
+		
+		function containsAction(action : IAction) : Boolean
 	}
 }
