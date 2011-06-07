@@ -1,5 +1,6 @@
 package org.osflash.actions
 {
+	import org.osflash.actions.debug.describeActions;
 	import org.osflash.actions.types.ActionIntType;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
@@ -28,7 +29,9 @@ package org.osflash.actions
 			manager.register(ActionIntType);
 			
 			const action : IAction = new ActionIntType();
-			manager.commit(action);
+			manager.dispatch(action);
+						
+			trace(describeActions(manager));
 		}
 	}
 }

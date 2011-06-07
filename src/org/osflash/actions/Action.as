@@ -1,5 +1,6 @@
 package org.osflash.actions
 {
+	import org.osflash.actions.stream.IActionOutputStream;
 	import org.osflash.actions.uid.UID;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
@@ -31,6 +32,14 @@ package org.osflash.actions
 		public function revert() : void
 		{
 			throw new Error('Override Action revert method.');
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function describe(stream : IActionOutputStream) : void
+		{
+			stream.writeUTF(id);
 		}
 		
 		/**
