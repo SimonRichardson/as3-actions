@@ -1,0 +1,5 @@
+h1. AS3-Actions
+
+AS3-Actions is a attempt to provide the ability to facilitate user or application actions model in AS3
+
+AS3-Actions uses the "MIT":http://en.wikipedia.org/wiki/MIT_License license.
