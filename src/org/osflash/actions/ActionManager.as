@@ -5,9 +5,37 @@ package org.osflash.actions
 	 */
 	public class ActionManager implements IActionManager
 	{
-
-		public function ActionManager()
+		
+		/**
+		 * @private
+		 */
+		private var _actions : Vector.<IAction>;
+		
+		/**
+		 * @private
+		 */		
+		private var _registry : IActionClassRegistry;
+		
+		public function ActionManager(registry : IActionClassRegistry = null)
 		{
+			_actions = new Vector.<IAction>();
+			_registry = registry || new ActionClassRegistry();
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function register(actionClass : Class) : void
+		{
+			_registry.add(actionClass);
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function unregister(actionClass : Class) : void
+		{
+			_registry.remove(actionClass);
 		}
 		
 		/**
@@ -15,7 +43,7 @@ package org.osflash.actions
 		 * 
 		 * @param action IAction to commit
 		 */
-		public function commit() : void
+		public function commit(action : IAction) : void
 		{
 		}
 	
@@ -24,7 +52,7 @@ package org.osflash.actions
 		 * 
 		 * @param action IAction to revert
 		 */
-		public function revert() : void
+		public function revert(action : IAction) : void
 		{
 		}
 		
@@ -49,6 +77,15 @@ package org.osflash.actions
 		 */
 		public function clear() : void
 		{
+			_actions.length = 0;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function get invalidated() : Boolean
+		{
+			return false;
 		}
 		
 		/**

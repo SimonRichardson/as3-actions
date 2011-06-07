@@ -10,7 +10,16 @@ package org.osflash.actions.types
 		
 		private var _int : int;
 
-		public function ActionIntType(value : int)
+		public function ActionIntType()
+		{
+		}
+		
+		/**
+		 * Initialiser for the ActionIntType
+		 * 
+		 * @param value int
+		 */
+		public function init(value : int) : void
 		{
 			_int = value;
 		}

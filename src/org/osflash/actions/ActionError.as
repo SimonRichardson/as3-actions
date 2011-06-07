@@ -3,7 +3,7 @@ package org.osflash.actions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public final class ActionError
+	public final class ActionError extends Error
 	{
 
 		public static const NO_ACTIONS_ADDED_IN_SEQUENCE : int = 0x01;
@@ -15,6 +15,14 @@ package org.osflash.actions
 		public static const REMOVE_ACTION_LENGTH_ZERO : int = 0x04;
 
 		public static const REMOVE_ACTION_MISMATCH : int = 0x05;
+
+		public static const ACTION_CLASS_ALREADY_EXISTS : int = 0x06;
+		
+		public static const ACTION_CLASS_DOES_NOT_EXIST : int = 0x07;
+
+		public static const INVALID_ACTION_CLASS : int = 0x08;
+
+		public static const ACTION_CLASS_CAN_NOT_HAVE_PARAMETERS : int = 0x09;
 
 		public function ActionError(message : String)
 		{
@@ -41,6 +49,14 @@ package org.osflash.actions
 					return 'removeActionLengthZero';
 				case REMOVE_ACTION_MISMATCH:
 					return 'removeActionMismatch';
+				case ACTION_CLASS_ALREADY_EXISTS:
+					return 'actionClassAlreadyExists';
+				case ACTION_CLASS_DOES_NOT_EXIST:
+					return 'actionClassDoesNotExist';
+				case INVALID_ACTION_CLASS:
+					return 'invalidActionClass';
+				case ACTION_CLASS_CAN_NOT_HAVE_PARAMETERS:
+					return 'actionClassCanNotHaveParameters';
 				default:
 					throw new ArgumentError('Given argument is Unknown.');  
 			}
@@ -72,6 +88,20 @@ package org.osflash.actions
 				case REMOVE_ACTION_MISMATCH:
 					throw new ActionError('Error trying to remove a action, that does not ' +
 														 			'correspond to given action');
+					break;
+				case ACTION_ALREADY_EXISTS:
+					throw new ActionError('ActionClass already exists in the current ' +
+																				'IActionRegistery');
+					break;
+				case ACTION_DOES_NOT_EXIST:
+					throw new ActionError('ActionClass does not exist in the current ' + 
+																				'IActionRegistery');
+					break;
+				case INVALID_ACTION_CLASS:
+					throw new ActionError('ActionClass does not implement IAction');
+					break;
+				case ACTION_CLASS_CAN_NOT_HAVE_PARAMETERS:
+					throw new ActionError('ActionClass can not have non-optional parameters');
 					break;
 				default:
 					throw new ArgumentError('Given argument is Unknown');
