@@ -12,7 +12,7 @@ package org.osflash.actions.debug
 		manager.describe(stream);
 		
 		const actions : XML = describeWriteActions(stream);
-		return describeSubActions(actions.children(), actions.@current, -1);
+		return describeSubActions(actions.children().(name() == "action"), actions.@current, -1);
 	}
 }
 
@@ -27,12 +27,12 @@ function describeSubActions(children : XMLList, id : String, indent : int) : Str
 		const qname : String = action.@qname;
 		const qnameParts : Array = qname.split('::');
 		const name : String = qnameParts[qnameParts.length - 1];
-		
+			
 		result += padIndent(indent);
 		result += '[' + ((action.@id == id) ? '>' : ' ') + ']';
 		result += ' ' + name + ' (id="' + action.@id + '")\n';
-		
-		const subChildren : XMLList = action.children();
+			
+		const subChildren : XMLList = action.children().(name() == "action");
 		if(subChildren.length() > 0)
 		{
 			result += describeSubActions(subChildren, id, indent);

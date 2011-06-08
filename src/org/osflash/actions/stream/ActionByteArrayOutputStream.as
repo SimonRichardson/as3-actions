@@ -8,16 +8,6 @@ package org.osflash.actions.stream
 	public class ActionByteArrayOutputStream implements IActionOutputStream
 	{
 		
-		internal static const UTF : int = 0;
-		
-		internal static const INT : int = 1;
-		
-		internal static const UINT : int = 2;
-		
-		internal static const FLOAT : int = 3;
-		
-		internal static const BOOLEAN : int = 4;
-		
 		/**
 		 * @private
 		 */
@@ -33,7 +23,7 @@ package org.osflash.actions.stream
 		 */
 		public function writeUTF(value : String) : void
 		{
-			_buffer.writeByte(UTF);
+			_buffer.writeByte(ActionStreamTypes.UTF);
 			_buffer.writeUTF(value);
 		}
 		
@@ -42,7 +32,7 @@ package org.osflash.actions.stream
 		 */
 		public function writeInt(value : int) : void
 		{
-			_buffer.writeByte(INT);
+			_buffer.writeByte(ActionStreamTypes.INT);
 			_buffer.writeInt(value);
 		}
 		
@@ -51,7 +41,7 @@ package org.osflash.actions.stream
 		 */
 		public function writeUnsignedInt(value : uint) : void
 		{
-			_buffer.writeByte(UINT);
+			_buffer.writeByte(ActionStreamTypes.UINT);
 			_buffer.writeUnsignedInt(value);
 		}
 		
@@ -60,7 +50,7 @@ package org.osflash.actions.stream
 		 */
 		public function writeFloat(value : Number) : void
 		{
-			_buffer.writeByte(FLOAT);
+			_buffer.writeByte(ActionStreamTypes.FLOAT);
 			_buffer.writeFloat(value);
 		}
 		
@@ -69,7 +59,7 @@ package org.osflash.actions.stream
 		 */
 		public function writeBoolean(value : Boolean) : void
 		{
-			_buffer.writeByte(BOOLEAN);
+			_buffer.writeByte(ActionStreamTypes.BOOLEAN);
 			_buffer.writeBoolean(value);
 		}
 		
@@ -118,11 +108,21 @@ package org.osflash.actions.stream
 			{
 				switch(_buffer.readByte())
 				{
-					case UTF: stream.writeUTF(_buffer.readUTF()); break;
-					case INT: stream.writeInt(_buffer.readInt()); break;
-					case UINT: stream.writeUnsignedInt(_buffer.readUnsignedInt()); break;
-					case FLOAT: stream.writeFloat(_buffer.readFloat()); break;
-					case BOOLEAN: stream.writeBoolean(_buffer.readBoolean()); break;
+					case ActionStreamTypes.UTF: 
+						stream.writeUTF(_buffer.readUTF()); 
+						break;
+					case ActionStreamTypes.INT: 
+						stream.writeInt(_buffer.readInt()); 
+						break;
+					case ActionStreamTypes.UINT: 
+						stream.writeUnsignedInt(_buffer.readUnsignedInt()); 
+						break;
+					case ActionStreamTypes.FLOAT: 
+						stream.writeFloat(_buffer.readFloat()); 
+						break;
+					case ActionStreamTypes.BOOLEAN: 
+						stream.writeBoolean(_buffer.readBoolean()); 
+						break;
 					default: 
 						throw new IllegalOperationError();
 						break;

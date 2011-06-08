@@ -1,10 +1,13 @@
 package org.osflash.actions
 {
+	import org.osflash.actions.debug.describeWriteActions;
+	import asunit.framework.IAsync;
+
+	import org.osflash.actions.debug.describeActions;
 	import org.osflash.actions.stream.ActionByteArrayOutputStream;
 	import org.osflash.actions.stream.IActionOutputStream;
-	import asunit.framework.IAsync;
-	import org.osflash.actions.debug.describeActions;
 	import org.osflash.actions.types.ActionIntType;
+	import org.osflash.actions.types.ActionStringType;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
@@ -33,14 +36,18 @@ package org.osflash.actions
 		public function test_setup() : void
 		{
 			manager.register(ActionIntType);
+			manager.register(ActionStringType);
 			manager.register(ActionSequence);
 			
-			const action : IAction = new ActionIntType();
-			manager.dispatch(action);
+			const action0 : IAction = new ActionIntType();
+			manager.dispatch(action0);
+			
+			const action1 : IAction = new ActionIntType();
+			manager.dispatch(action1);
 			
 			const sequence : IActionSequence = new ActionSequence();
 			sequence.add(new ActionIntType());
-			sequence.add(new ActionIntType());
+			sequence.add(new ActionStringType());
 			sequence.add(new ActionIntType());
 			manager.dispatch(sequence);
 						
@@ -57,6 +64,7 @@ package org.osflash.actions
 			const stream : IActionOutputStream = new ActionByteArrayOutputStream();
 			manager.write(stream);
 			
+			trace(describeWriteActions(stream));
 		}
 	}
 }

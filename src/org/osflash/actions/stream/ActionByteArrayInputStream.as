@@ -30,7 +30,7 @@ package org.osflash.actions.stream
 		 */
 		public function readInt() : int
 		{
-			if(_buffer.readByte() != ActionByteArrayOutputStream.INT)
+			if(_buffer.readByte() != ActionStreamTypes.INT)
 				ActionStreamError.throwError(ActionStreamError.INVALID_INT);
 				
 			return _buffer.readInt();
@@ -41,7 +41,7 @@ package org.osflash.actions.stream
 		 */
 		public function readUnsignedInt() : uint
 		{
-			if(_buffer.readByte() != ActionByteArrayOutputStream.UINT)
+			if(_buffer.readByte() != ActionStreamTypes.UINT)
 				ActionStreamError.throwError(ActionStreamError.INVALID_UINT);
 				
 			return _buffer.readUnsignedInt();
@@ -52,7 +52,7 @@ package org.osflash.actions.stream
 		 */
 		public function readFloat() : Number
 		{
-			if(_buffer.readByte() != ActionByteArrayOutputStream.FLOAT)
+			if(_buffer.readByte() != ActionStreamTypes.FLOAT)
 				ActionStreamError.throwError(ActionStreamError.INVALID_FLOAT);
 				
 			return _buffer.readFloat();
@@ -63,7 +63,7 @@ package org.osflash.actions.stream
 		 */
 		public function readUTF() : String
 		{
-			if(_buffer.readByte() != ActionByteArrayOutputStream.UTF)
+			if(_buffer.readByte() != ActionStreamTypes.UTF)
 				ActionStreamError.throwError(ActionStreamError.INVALID_UTF);
 				
 			return _buffer.readUTF();
@@ -74,7 +74,7 @@ package org.osflash.actions.stream
 		 */
 		public function readBoolean() : Boolean
 		{
-			if(_buffer.readByte() != ActionByteArrayOutputStream.BOOLEAN)
+			if(_buffer.readByte() != ActionStreamTypes.BOOLEAN)
 				ActionStreamError.throwError(ActionStreamError.INVALID_BOOLEAN);
 				
 			return _buffer.readBoolean();
@@ -86,6 +86,21 @@ package org.osflash.actions.stream
 		public function clear() : void
 		{
 			_buffer.clear();
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function get nextType() : int
+		{
+			const pos : uint = _buffer.position;
+			if(pos >= _buffer.length)
+				return ActionStreamTypes.EOF;
+			
+			const type : int = _buffer.readByte();
+			_buffer.position = pos;
+			
+			return type;
 		}
 
 		/**

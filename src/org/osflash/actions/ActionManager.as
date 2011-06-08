@@ -77,6 +77,8 @@ package org.osflash.actions
 			
 			commit(action);
 			
+			// TODO : work out a number of history actions limit!
+			/*
 			var index : int = _actions.length;
 			while(--index > -1)
 			{
@@ -86,7 +88,7 @@ package org.osflash.actions
 				
 				_actions.splice(index, 1);
 			}
-			
+			*/
 			_actions.unshift(action);
 			_current = action;
 			
@@ -140,18 +142,18 @@ package org.osflash.actions
 			var index : int = _actions.indexOf(_current);
 			index = index < 0 ? 0 : index + 1;
 			
+			// Set the current position
+			var item : IAction = _actions[index];
+			_current = item;
+			
 			while(index < total)
 			{
-				const item : IAction = _actions[index];
-				
-				revert(item);
-				
-				_current = item;
-				
-				if(invalidated) _changeSignal.dispatch(_current);
-				
+				revert(_actions[index]);
 				index++;
 			}
+			
+			if(invalidated) 
+				_changeSignal.dispatch(_current);
 						
 			return true;
 		}

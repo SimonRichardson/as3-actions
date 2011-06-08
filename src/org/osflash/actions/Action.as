@@ -15,10 +15,20 @@ package org.osflash.actions
 		 */
 		private var _id : String;
 		
+		/**
+		 * @private
+		 */
 		private var _qname : String;
 		
-		public function Action()
+		/**
+		 * @private
+		 */
+		private var _numStreamProperties : uint;
+		
+		public function Action(numStreamProperties : uint = 0)
 		{
+			_numStreamProperties = numStreamProperties;
+			
 			_id = UID.create();
 			_qname = getQualifiedClassName(this);
 		}
@@ -47,8 +57,9 @@ package org.osflash.actions
 			const numChildren : uint = stream.readUnsignedInt();
 			const qname : String = stream.readUTF();
 			const id : String = stream.readUTF();
+			const numProperties : uint = stream.readUnsignedInt();
 			
-			if(numChildren != 0 || qname != _qname)
+			if(numChildren != 0 || qname != _qname || numProperties != _numStreamProperties)
 				ActionError.throwError(ActionError.INVALID_INPUT_STREAM);
 			
 			_id = id;
@@ -62,6 +73,7 @@ package org.osflash.actions
 			stream.writeUnsignedInt(0);
 			stream.writeUTF(_qname);
 			stream.writeUTF(id);
+			stream.writeUnsignedInt(_numStreamProperties);
 		}
 		
 		/**
@@ -72,6 +84,7 @@ package org.osflash.actions
 			stream.writeUnsignedInt(0);
 			stream.writeUTF(_qname);
 			stream.writeUTF(id);
+			stream.writeUnsignedInt(_numStreamProperties);
 		}
 		
 		/**

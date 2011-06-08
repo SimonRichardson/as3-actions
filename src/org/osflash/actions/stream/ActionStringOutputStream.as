@@ -27,6 +27,9 @@ package org.osflash.actions.stream
 		 */
 		public function writeUTF(value : String) : void
 		{
+			value = ActionStreamTypes.UTF + value;
+			value += "\n";
+			
 			const parts : Array = _buffer.split('');
 			parts.splice(position, 0, value);
 			
@@ -39,11 +42,13 @@ package org.osflash.actions.stream
 		 */
 		public function writeInt(value : int) : void
 		{
+			const string : String = ActionStreamTypes.INT + value.toString() + "\n";
+			
 			const parts : Array = _buffer.split('');
-			parts.splice(position, 0, value);
+			parts.splice(position, 0, string);
 			
 			_buffer = parts.join('');
-			_position += value.toString().length;
+			_position += string.length;
 		}
 		
 		/**
@@ -51,11 +56,13 @@ package org.osflash.actions.stream
 		 */
 		public function writeUnsignedInt(value : uint) : void
 		{
+			const string : String = ActionStreamTypes.UINT + value.toString() + "\n";
+			
 			const parts : Array = _buffer.split('');
-			parts.splice(position, 0, value);
+			parts.splice(position, 0, string);
 			
 			_buffer = parts.join('');
-			_position += value.toString().length;
+			_position += string.length;
 		}
 		
 		/**
@@ -63,11 +70,13 @@ package org.osflash.actions.stream
 		 */
 		public function writeFloat(value : Number) : void
 		{
+			const string : String = ActionStreamTypes.FLOAT + value.toString() + "\n";
+			
 			const parts : Array = _buffer.split('');
-			parts.splice(position, 0, value);
+			parts.splice(position, 0, string);
 			
 			_buffer = parts.join('');
-			_position += value.toString().length;
+			_position += string.length;
 		}
 		
 		/**
@@ -75,7 +84,7 @@ package org.osflash.actions.stream
 		 */
 		public function writeBoolean(value : Boolean) : void
 		{
-			const string : String = value ? 'true' : 'false';
+			const string : String = ActionStreamTypes.BOOLEAN + (value ? 'true' : 'false') + "\n";
 			
 			const parts : Array = _buffer.split('');
 			parts.splice(position, 0, string);

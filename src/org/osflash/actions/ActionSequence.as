@@ -159,6 +159,25 @@ package org.osflash.actions
 		
 		/**
 		 * @inheritDoc
+		 */
+		override public function write(stream : IActionOutputStream) : void
+		{
+			const total : int = _actions.length;
+			
+			stream.writeUnsignedInt(total);
+			stream.writeUTF(qname);
+			stream.writeUTF(id);
+			stream.writeUnsignedInt(0);
+			
+			for(var i : int = 0; i < total; i++)
+			{
+				const action : IAction = _actions[i];
+				action.write(stream);
+			}
+		}
+		
+		/**
+		 * @inheritDoc
 		 */	
 		override public function describe(stream : IActionOutputStream) : void
 		{
@@ -167,6 +186,7 @@ package org.osflash.actions
 			stream.writeUnsignedInt(total);
 			stream.writeUTF(qname);
 			stream.writeUTF(id);
+			stream.writeUnsignedInt(0);
 			
 			for(var i : int = 0; i < total; i++)
 			{

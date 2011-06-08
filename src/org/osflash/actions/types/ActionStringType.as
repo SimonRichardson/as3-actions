@@ -7,64 +7,62 @@ package org.osflash.actions.types
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public class ActionIntType extends Action
+	public class ActionStringType extends Action
 	{
-		
-		private var _int : int;
 
-		public function ActionIntType()
+		private var _string : String;
+
+		public function ActionStringType()
 		{
 			super(1);
 			
-			_int = 0;
+			_string = "";
 		}
-		
+
 		/**
-		 * Initialiser for the ActionIntType
+		 * Initialiser for the ActionStringType
 		 * 
-		 * @param value int
+		 * @param value String
 		 */
-		public function init(value : int) : void
+		public function init(value : String) : void
 		{
-			if(isNaN(value)) throw new ArgumentError('Given value can not be NaN');
-				
-			_int = value;
+			if(null == value) throw new ArgumentError('Given value can not be null');
+			
+			_string = value;
 		}
-		
+
 		/**
 		 * @inheritDoc
-		 */	
+		 */
 		override public function commit() : void
 		{
-//			trace(id + " : COMMIT > " + _int);
 		}
-		
+
 		/**
 		 * @inheritDoc
-		 */	
+		 */
 		override public function revert() : void
 		{
-//			trace(id + " : REVERT > " + _int);
 		}
 		
 		/**
 		 * @inheritDoc
 		 */
-		override public function read(stream : IActionInputStream) : void
+		final override public function read(stream : IActionInputStream) : void
 		{
 			super.read(stream);
 			
-			_int = stream.readInt();
+			_string = stream.readUTF();
 		}
 		
 		/**
 		 * @inheritDoc
 		 */
-		override public function write(stream : IActionOutputStream) : void
+		final override public function write(stream : IActionOutputStream) : void
 		{
 			super.write(stream);
 			
-			stream.writeInt(_int);
+			stream.writeUTF(_string);
 		}
 		
 		/**
@@ -74,8 +72,7 @@ package org.osflash.actions.types
 		{
 			super.describe(stream);
 			
-			stream.writeInt(_int);
+			stream.writeUTF(_string);
 		}
-
 	}
 }
