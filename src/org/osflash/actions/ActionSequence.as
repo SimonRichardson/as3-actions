@@ -1,5 +1,6 @@
 package org.osflash.actions
 {
+	import org.osflash.actions.stream.IActionInputStream;
 	import org.osflash.actions.stream.IActionOutputStream;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
@@ -11,6 +12,11 @@ package org.osflash.actions
 		 * @private
 		 */
 		private var _actions : Vector.<IAction>;
+		
+		/**
+		 * @private
+		 */
+		private var _registry : IActionClassRegistry;
 
 		public function ActionSequence()
 		{
@@ -159,14 +165,56 @@ package org.osflash.actions
 		
 		/**
 		 * @inheritDoc
+		 */	
+		final override public function read(stream : IActionInputStream) : void
+		{
+			if(null == registry)
+				ActionError.throwError(ActionError.INVALID_ACTION_CLASS_REGISTRY);
+			
+			const qname : String = stream.readUTF();
+			const id : String = stream.readUTF();
+			const numChildren : uint = stream.readUnsignedInt();
+			const numProperties : uint = stream.readUnsignedInt();
+			
+			if(qname != qname || numProperties != 0)
+				ActionError.throwError(ActionError.INVALID_INPUT_STREAM);
+				
+			this.id = id;
+			
+			for(var i : int = 0; i < numChildren; i++)
+			{
+				// create a new action from the registry
+				const currentPosition : uint = stream.position;
+				
+				// Read in the qname
+				const actionQName : String = stream.readUTF();
+				
+				// Reset the position
+				stream.position = currentPosition;
+				
+				// We now have the action
+				const action : IAction = _registry.create(actionQName);
+				if(action is IActionSequence)
+				{
+					const sequence : IActionSequence = IActionSequence(action);
+					sequence.registry = registry;
+				}
+				action.read(stream);
+				
+				add(action);
+			}
+		}
+		
+		/**
+		 * @inheritDoc
 		 */
-		override public function write(stream : IActionOutputStream) : void
+		final override public function write(stream : IActionOutputStream) : void
 		{
 			const total : int = _actions.length;
 			
-			stream.writeUnsignedInt(total);
 			stream.writeUTF(qname);
 			stream.writeUTF(id);
+			stream.writeUnsignedInt(total);
 			stream.writeUnsignedInt(0);
 			
 			for(var i : int = 0; i < total; i++)
@@ -183,9 +231,9 @@ package org.osflash.actions
 		{
 			const total : int = _actions.length;
 			
-			stream.writeUnsignedInt(total);
 			stream.writeUTF(qname);
 			stream.writeUTF(id);
+			stream.writeUnsignedInt(total);
 			stream.writeUnsignedInt(0);
 			
 			for(var i : int = 0; i < total; i++)
@@ -201,6 +249,18 @@ package org.osflash.actions
 		public function get numActions() : int
 		{
 			return null != _actions ? _actions.length : 0;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function get registry() : IActionClassRegistry { return _registry; }
+		public function set registry(value : IActionClassRegistry) : void 
+		{
+			if(null == value)
+				throw new ArgumentError('Given value can not be null');
+				
+			_registry = value;
 		}
 				
 		/**

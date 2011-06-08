@@ -195,7 +195,47 @@ package org.osflash.actions
 		 */
 		public function read(stream : IActionInputStream) : void
 		{
+			if(null == _registry)
+				ActionError.throwError(ActionError.INVALID_ACTION_CLASS_REGISTRY);
 			
+			if(_actions.length > 0)
+				ActionError.throwError(ActionError.ACTIONS_ALREADY_EXIST);
+			
+			const valid : Boolean = stream.readBoolean();
+			if(valid)
+			{
+				const currentID : String = stream.readUTF();
+				// TODO : validate id here.
+			}
+			
+			const total : uint = stream.readUnsignedInt();
+			for(var i : int = 0; i<total; i++)
+			{
+				// create a new action from the registry
+				const currentPosition : uint = stream.position;
+				
+				// Read in the qname
+				const qname : String = stream.readUTF();
+				
+				// Reset the position
+				stream.position = currentPosition;
+				
+				// We now have the action
+				const action : IAction = _registry.create(qname);
+				if(action is IActionSequence)
+				{
+					const sequence : IActionSequence = IActionSequence(action);
+					sequence.registry = _registry;
+				}
+				
+				action.read(stream);
+				
+				_actions.push(action);
+				
+				// Store the current action
+				if(action.id == currentID)
+					_current = action;
+			}
 		}
 		
 		/**

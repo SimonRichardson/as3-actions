@@ -3,32 +3,29 @@ package org.osflash.actions.types
 	import org.osflash.actions.Action;
 	import org.osflash.actions.stream.IActionInputStream;
 	import org.osflash.actions.stream.IActionOutputStream;
-
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public class ActionIntType extends Action
+	public class ActionBooleanType extends Action
 	{
 		
-		private var _value : int;
+		private var _value : Boolean;
 
-		public function ActionIntType()
+		public function ActionBooleanType()
 		{
 			super(1);
 			
-			_value = 0;
+			_value = false;
 		}
 		
 		/**
-		 * Initialiser for the ActionIntType
+		 * Initialiser for the ActionBooleanType
 		 * 
-		 * @param value int
+		 * @param value Boolean
 		 */
-		public function init(value : int) : void
+		public function init(value : Boolean) : void
 		{
-			if(isNaN(value)) throw new ArgumentError('Given value can not be NaN');
-				
-			_value = value;
+			_value = value ? true : false;
 		}
 		
 		/**
@@ -52,7 +49,7 @@ package org.osflash.actions.types
 		{
 			super.read(stream);
 			
-			_value = stream.readInt();
+			_value = stream.readBoolean();
 		}
 		
 		/**
@@ -62,7 +59,7 @@ package org.osflash.actions.types
 		{
 			super.write(stream);
 			
-			stream.writeInt(_value);
+			stream.writeBoolean(_value);
 		}
 		
 		/**
@@ -72,8 +69,7 @@ package org.osflash.actions.types
 		{
 			super.describe(stream);
 			
-			stream.writeInt(_value);
+			stream.writeBoolean(_value);
 		}
-
 	}
 }

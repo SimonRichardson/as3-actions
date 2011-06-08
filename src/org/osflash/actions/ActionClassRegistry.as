@@ -30,13 +30,13 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */
-		public function create(identifier : String) : IAction
+		public function create(qname : String) : IAction
 		{
-			if(null == identifier) throw new ArgumentError('Given value can not be null');
+			if(null == qname) throw new ArgumentError('Given value can not be null');
 			
 			for(var ident : String in _classes)
 			{
-				if(ident == identifier)
+				if(ident == qname)
 				{
 					const actionClass : Class = _classes[ident];
 					const action : IAction = new actionClass();

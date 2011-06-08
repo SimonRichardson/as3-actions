@@ -23,5 +23,8 @@ package org.osflash.actions
 		function find(id : String) : IAction;
 		
 		function get numActions() : int;
+		
+		function get registry() : IActionClassRegistry;
+		function set registry(value : IActionClassRegistry) : void;
 	}
 }

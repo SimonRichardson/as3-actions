@@ -14,9 +14,9 @@ package org.osflash.actions.debug
 		const total : int = stream.readUnsignedInt();
 		for(var i : int = 0; i < total; i++)
 		{
-			const num : uint = stream.readUnsignedInt();
 			const qname : String = stream.readUTF();
 			const id : String = stream.readUTF();
+			const num : uint = stream.readUnsignedInt();
 			
 			const active : Boolean = result.@current == id;
 			
@@ -47,9 +47,9 @@ function describeSubWriteActions(	stream : IActionInputStream,
 {
 	for(var i : int = 0; i < numNodes; i++)
 	{
-		const subNum : uint = stream.readUnsignedInt();
 		const qname : String = stream.readUTF();
 		const id : String = stream.readUTF();
+		const subNum : uint = stream.readUnsignedInt();
 		
 		const subNode : XML = <action qname={qname} id={id} active={active}/>;
 		

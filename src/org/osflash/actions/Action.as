@@ -54,9 +54,9 @@ package org.osflash.actions
 		 */
 		public function read(stream : IActionInputStream) : void
 		{
-			const numChildren : uint = stream.readUnsignedInt();
 			const qname : String = stream.readUTF();
 			const id : String = stream.readUTF();
+			const numChildren : uint = stream.readUnsignedInt();
 			const numProperties : uint = stream.readUnsignedInt();
 			
 			if(numChildren != 0 || qname != _qname || numProperties != _numStreamProperties)
@@ -70,9 +70,9 @@ package org.osflash.actions
 		 */
 		public function write(stream : IActionOutputStream) : void
 		{
-			stream.writeUnsignedInt(0);
 			stream.writeUTF(_qname);
 			stream.writeUTF(id);
+			stream.writeUnsignedInt(0);
 			stream.writeUnsignedInt(_numStreamProperties);
 		}
 		
@@ -81,9 +81,9 @@ package org.osflash.actions
 		 */
 		public function describe(stream : IActionOutputStream) : void
 		{
-			stream.writeUnsignedInt(0);
 			stream.writeUTF(_qname);
 			stream.writeUTF(id);
+			stream.writeUnsignedInt(0);
 			stream.writeUnsignedInt(_numStreamProperties);
 		}
 		

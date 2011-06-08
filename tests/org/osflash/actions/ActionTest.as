@@ -9,7 +9,7 @@ package org.osflash.actions
 	import org.osflash.actions.stream.ActionByteArrayOutputStream;
 	import org.osflash.actions.stream.IActionOutputStream;
 	import org.osflash.actions.types.ActionIntType;
-	import org.osflash.actions.types.ActionStringType;
+	import org.osflash.actions.types.ActionUtfType;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
@@ -38,7 +38,7 @@ package org.osflash.actions
 		public function test_setup() : void
 		{
 			manager.register(ActionIntType);
-			manager.register(ActionStringType);
+			manager.register(ActionUtfType);
 			manager.register(ActionSequence);
 			
 			const action0 : IAction = new ActionIntType();
@@ -49,12 +49,12 @@ package org.osflash.actions
 			
 			const sequence : IActionSequence = new ActionSequence();
 			sequence.add(new ActionIntType());
-			sequence.add(new ActionStringType());
+			sequence.add(new ActionUtfType());
 			sequence.add(new ActionIntType());
 			
 			const sequence1 : IActionSequence = new ActionSequence();
 			sequence1.add(new ActionIntType());
-			sequence1.add(new ActionStringType());
+			sequence1.add(new ActionUtfType());
 			sequence.add(sequence1);
 			
 			manager.dispatch(sequence);
@@ -74,17 +74,23 @@ package org.osflash.actions
 			
 			trace(describeActions(manager));
 			
-			const outStream : IActionOutputStream = new ActionByteArrayOutputStream();
-			manager.write(outStream);
+			const outStream0 : IActionOutputStream = new ActionByteArrayOutputStream();
+			manager.write(outStream0);
 			
-			trace(describeWriteActions(outStream));
+			trace(describeWriteActions(outStream0));
 			
 			manager.clear();
 			
 			trace(describeActions(manager));
 			
-			const inStream : IActionInputStream = new ActionByteArrayInputStream(outStream);
+			const inStream : IActionInputStream = new ActionByteArrayInputStream(outStream0);
 			manager.read(inStream);
+			
+			trace(describeActions(manager));
+			
+			const outStream1 : IActionOutputStream = new ActionByteArrayOutputStream();
+			manager.write(outStream1);
+			trace(describeWriteActions(outStream1));
 		}
 	}
 }

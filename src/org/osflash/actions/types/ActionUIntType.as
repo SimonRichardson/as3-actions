@@ -3,16 +3,15 @@ package org.osflash.actions.types
 	import org.osflash.actions.Action;
 	import org.osflash.actions.stream.IActionInputStream;
 	import org.osflash.actions.stream.IActionOutputStream;
-
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public class ActionIntType extends Action
+	public class ActionUIntType extends Action
 	{
 		
 		private var _value : int;
 
-		public function ActionIntType()
+		public function ActionUIntType()
 		{
 			super(1);
 			
@@ -20,14 +19,15 @@ package org.osflash.actions.types
 		}
 		
 		/**
-		 * Initialiser for the ActionIntType
+		 * Initialiser for the ActionUIntType
 		 * 
-		 * @param value int
+		 * @param value uint
 		 */
-		public function init(value : int) : void
+		public function init(value : uint) : void
 		{
 			if(isNaN(value)) throw new ArgumentError('Given value can not be NaN');
-				
+			if(value < 0) throw new ArgumentError('Given value can not be less then 0');
+			
 			_value = value;
 		}
 		
@@ -52,7 +52,7 @@ package org.osflash.actions.types
 		{
 			super.read(stream);
 			
-			_value = stream.readInt();
+			_value = stream.readUnsignedInt();
 		}
 		
 		/**
@@ -62,7 +62,7 @@ package org.osflash.actions.types
 		{
 			super.write(stream);
 			
-			stream.writeInt(_value);
+			stream.writeUnsignedInt(_value);
 		}
 		
 		/**
@@ -72,8 +72,7 @@ package org.osflash.actions.types
 		{
 			super.describe(stream);
 			
-			stream.writeInt(_value);
+			stream.writeUnsignedInt(_value);
 		}
-
 	}
 }

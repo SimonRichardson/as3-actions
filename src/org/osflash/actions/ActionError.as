@@ -25,6 +25,10 @@ package org.osflash.actions
 		public static const ACTION_CLASS_CAN_NOT_HAVE_PARAMETERS : int = 0x09;
 
 		public static const INVALID_INPUT_STREAM : int = 0x10;
+		
+		public static const ACTIONS_ALREADY_EXIST : int = 0x11;
+
+		public static const INVALID_ACTION_CLASS_REGISTRY : int = 0x12;
 
 		public function ActionError(message : String)
 		{
@@ -61,6 +65,10 @@ package org.osflash.actions
 					return 'actionClassCanNotHaveParameters';
 				case INVALID_INPUT_STREAM:
 					return 'invalidInputStream';
+				case ACTIONS_ALREADY_EXIST:
+					return 'actionAlreadyExist';
+				case INVALID_ACTION_CLASS_REGISTRY:
+					return 'invalidActionClassRegistry';
 				default:
 					throw new ArgumentError('Given argument is Unknown.');  
 			}
@@ -110,6 +118,12 @@ package org.osflash.actions
 				case INVALID_INPUT_STREAM:
 					throw new ActionError('Invalid input stream');
 					break;
+				case ACTION_ALREADY_EXISTS:
+					throw new ActionError('Actions already exist and new ones can not be added. ' +
+													'Use clear() on IActionManager before read()');
+					break;
+				case INVALID_ACTION_CLASS_REGISTRY:
+					throw new ActionError('Invalid IActionClassRegistry found');
 				default:
 					throw new ArgumentError('Given argument is Unknown');
 			}

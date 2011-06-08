@@ -6,6 +6,8 @@ package org.osflash.actions
 	public interface IActionClassRegistry
 	{
 		
+		function create(qname : String) : IAction
+		
 		function add(actionClass : Class) : void;
 		
 		function remove(actionClass : Class) : void;
