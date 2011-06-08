@@ -167,11 +167,10 @@ package org.osflash.actions
 			// Current could be null, but that would be a case of (IAction == null) == false
 			if(_actions[0] == _current) return false;
 			
-			const index : int = (null == _current) ? total : _actions.indexOf(_current);
+			const index : int = (null == _current) ? total - 1 : _actions.indexOf(_current) - 1;
 			const item : IAction = _actions[index];
-			
 			commit(item);
-			
+				
 			_current = item;
 				
 			if(invalidated) _changeSignal.dispatch(_current);
