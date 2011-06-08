@@ -1,5 +1,7 @@
 package org.osflash.actions
 {
+	import org.osflash.actions.stream.ActionByteArrayInputStream;
+	import org.osflash.actions.stream.IActionInputStream;
 	import org.osflash.actions.debug.describeWriteActions;
 	import asunit.framework.IAsync;
 
@@ -49,6 +51,12 @@ package org.osflash.actions
 			sequence.add(new ActionIntType());
 			sequence.add(new ActionStringType());
 			sequence.add(new ActionIntType());
+			
+			const sequence1 : IActionSequence = new ActionSequence();
+			sequence1.add(new ActionIntType());
+			sequence1.add(new ActionStringType());
+			sequence.add(sequence1);
+			
 			manager.dispatch(sequence);
 						
 			trace(describeActions(manager));
@@ -61,10 +69,22 @@ package org.osflash.actions
 			
 			trace(describeActions(manager));
 			
-			const stream : IActionOutputStream = new ActionByteArrayOutputStream();
-			manager.write(stream);
+			manager.undo();
+			manager.undo();
 			
-			trace(describeWriteActions(stream));
+			trace(describeActions(manager));
+			
+			const outStream : IActionOutputStream = new ActionByteArrayOutputStream();
+			manager.write(outStream);
+			
+			trace(describeWriteActions(outStream));
+			
+			manager.clear();
+			
+			trace(describeActions(manager));
+			
+			const inStream : IActionInputStream = new ActionByteArrayInputStream(outStream);
+			manager.read(inStream);
 		}
 	}
 }

@@ -16,7 +16,11 @@ package org.osflash.actions.debug
 	}
 }
 
-function describeSubActions(children : XMLList, id : String, indent : int) : String
+function describeSubActions(	children : XMLList, 
+								id : String, 
+								indent : int, 
+								active : Boolean = false
+								) : String
 {
 	indent++;
 	
@@ -27,15 +31,17 @@ function describeSubActions(children : XMLList, id : String, indent : int) : Str
 		const qname : String = action.@qname;
 		const qnameParts : Array = qname.split('::');
 		const name : String = qnameParts[qnameParts.length - 1];
-			
+		
+		const status : Boolean = indent <= 0 ? (action.@id == id) : active;
+		
 		result += padIndent(indent);
-		result += '[' + ((action.@id == id) ? '>' : ' ') + ']';
+		result += '[' + (status ? '>' : ' ') + ']';
 		result += ' ' + name + ' (id="' + action.@id + '")\n';
 			
 		const subChildren : XMLList = action.children().(name() == "action");
 		if(subChildren.length() > 0)
 		{
-			result += describeSubActions(subChildren, id, indent);
+			result += describeSubActions(subChildren, id, indent, status);
 		}
 	}
 	

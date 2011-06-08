@@ -186,6 +186,8 @@ package org.osflash.actions
 		public function clear() : void
 		{
 			_actions.length = 0;
+			_current = null;
+			_savePointer = null;
 		}
 		
 		/**

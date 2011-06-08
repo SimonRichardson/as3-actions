@@ -57,12 +57,11 @@ function describeSubWriteActions(	input : IActionInputStream,
 		
 		const subNode : XML = <action qname={qname} id={id} active={active}/>;
 		
-		// TODO : workout how to retrieve properties from this, as we'll store more and more.
 		const properties : XML = describeProperties(input);
 		subNode.appendChild(properties);
-				
+		
 		if(subNum > 0)
-			describeSubWriteActions(input, node, subNum, active);
+			describeSubWriteActions(input, subNode, subNum, active);
 		
 		node.appendChild(subNode);
 	}
