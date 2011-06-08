@@ -142,11 +142,14 @@ package org.osflash.actions
 			while(index < total)
 			{
 				const item : IAction = _actions[index];
+				
 				revert(item);
 				
 				_current = item;
 				
 				if(invalidated) _changeSignal.dispatch(_current);
+				
+				index++;
 			}
 						
 			return true;
@@ -163,20 +166,16 @@ package org.osflash.actions
 			// Current could be null, but that would be a case of (IAction == null) == false
 			if(_actions[0] == _current) return false;
 			
-			var index : int = (null == _current) ? total : _actions.indexOf(_current);
-			while(--index > -1)
-			{
-				const item : IAction = _actions[index];
-				commit(item);
-				
-				_current = item;
-				
-				if(invalidated) _changeSignal.dispatch(_current);
-				
-				return true;
-			}
+			const index : int = (null == _current) ? total : _actions.indexOf(_current);
+			const item : IAction = _actions[index];
 			
-			return false;
+			commit(item);
+			
+			_current = item;
+				
+			if(invalidated) _changeSignal.dispatch(_current);
+				
+			return true;
 		}
 		
 		/**

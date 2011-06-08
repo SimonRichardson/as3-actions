@@ -1,5 +1,6 @@
 package org.osflash.actions
 {
+	import asunit.framework.IAsync;
 	import org.osflash.actions.debug.describeActions;
 	import org.osflash.actions.types.ActionIntType;
 	/**
@@ -7,6 +8,9 @@ package org.osflash.actions
 	 */
 	public class ActionTest
 	{
+		
+		[Inject]
+		public var async : IAsync;
 		
 		protected var manager : IActionManager;
 				
@@ -38,6 +42,14 @@ package org.osflash.actions
 			sequence.add(new ActionIntType());
 			manager.dispatch(sequence);
 						
+			trace(describeActions(manager));
+			
+			manager.undo();
+			
+			trace(describeActions(manager));
+			
+			manager.redo();
+			
 			trace(describeActions(manager));
 		}
 	}
