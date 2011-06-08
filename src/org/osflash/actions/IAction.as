@@ -12,5 +12,7 @@ package org.osflash.actions
 		
 		function get id() : String;
 		function set id(value : String) : void;
+		
+		function get qname() : String;
 	}
 }

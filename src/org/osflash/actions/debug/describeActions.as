@@ -1,62 +1,53 @@
 package org.osflash.actions.debug
 {
 	import org.osflash.actions.IActionManager;
-	import org.osflash.actions.stream.ActionByteArrayInputStream;
 	import org.osflash.actions.stream.ActionByteArrayOutputStream;
-	import org.osflash.actions.stream.IActionInputStream;
 	import org.osflash.actions.stream.IActionOutputStream;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public function describeActions(manager : IActionManager) : XML
+	public function describeActions(manager : IActionManager) : String
 	{
-		const output : IActionOutputStream = new ActionByteArrayOutputStream();
-		manager.describe(output);
+		const stream : IActionOutputStream = new ActionByteArrayOutputStream();
+		manager.describe(stream);
 		
-		const input : IActionInputStream = new ActionByteArrayInputStream(output);
-		
-		const result : XML = <actions/>;
-		
-		if(input.readBoolean() == true)
-			result.@current = input.readUTF();
-		
-		const total : int = input.readUnsignedInt();
-		for(var i : int = 0; i < total; i++)
-		{
-			const num : int = input.readUnsignedInt();
-			const item : String = input.readUTF();
-			const itemActive : Boolean = result.@current == item;
-			
-			const node : XML = <action id={item} active={itemActive}/>;
-			
-			if(num > 0)
-				describeSubActions(input, node, num, result.@current == item);
-			
-			result.appendChild(node);
-		}
-		
-		return result;
+		const actions : XML = describeWriteActions(stream);
+		return describeSubActions(actions.children(), actions.@current, -1);
 	}
 }
 
-import org.osflash.actions.stream.IActionInputStream;
-
-function describeSubActions(	stream : IActionInputStream, 
-								node : XML, 
-								numNodes : uint, 
-								active : Boolean
-								) : void
+function describeSubActions(children : XMLList, id : String, indent : int) : String
 {
-	for(var j : int = 0; j < numNodes; j++)
+	indent++;
+	
+	var result : String = "";
+	
+	for each(var action : XML in children)
 	{
-		const subNum : int = stream.readUnsignedInt();
-		const subItem : String = stream.readUTF();
-				
-		const subNode : XML = <action id={subItem} active={active}/>;
-				
-		if(subNum > 0)
-			describeSubActions(stream, node, subNum, active);
+		const qname : String = action.@qname;
+		const qnameParts : Array = qname.split('::');
+		const name : String = qnameParts[qnameParts.length - 1];
 		
-		node.appendChild(subNode);
+		result += padIndent(indent);
+		result += '[' + ((action.@id == id) ? '>' : ' ') + ']';
+		result += ' ' + name + ' (id="' + action.@id + '")\n';
+		
+		const subChildren : XMLList = action.children();
+		if(subChildren.length() > 0)
+		{
+			result += describeSubActions(subChildren, id, indent);
+		}
 	}
+	
+	return result;
+}
+
+function padIndent(level : int) : String
+{
+	var result : String = "";
+	while(--level > -1)
+	{
+		result += '\t';
+	}
+	return result;
 }

@@ -70,6 +70,7 @@ package org.osflash.actions
 		public function describe(stream : IActionOutputStream) : void
 		{
 			stream.writeUnsignedInt(0);
+			stream.writeUTF(_qname);
 			stream.writeUTF(id);
 		}
 		
@@ -78,5 +79,10 @@ package org.osflash.actions
 		 */
 		public function get id() : String { return _id; }
 		public function set id(value : String) : void { _id = value; }
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function get qname() : String { return _qname; }
 	}
 }

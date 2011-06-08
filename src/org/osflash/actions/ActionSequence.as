@@ -165,6 +165,7 @@ package org.osflash.actions
 			const total : int = _actions.length;
 			
 			stream.writeUnsignedInt(total);
+			stream.writeUTF(qname);
 			stream.writeUTF(id);
 			
 			for(var i : int = 0; i < total; i++)
