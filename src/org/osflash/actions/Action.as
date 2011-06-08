@@ -1,5 +1,7 @@
 package org.osflash.actions
 {
+	import flash.utils.getQualifiedClassName;
+	import org.osflash.actions.stream.IActionInputStream;
 	import org.osflash.actions.stream.IActionOutputStream;
 	import org.osflash.actions.uid.UID;
 	/**
@@ -13,9 +15,12 @@ package org.osflash.actions
 		 */
 		private var _id : String;
 		
+		private var _qname : String;
+		
 		public function Action()
 		{
 			_id = UID.create();
+			_qname = getQualifiedClassName(this);
 		}
 
 		/**
@@ -32,6 +37,31 @@ package org.osflash.actions
 		public function revert() : void
 		{
 			throw new Error('Override Action revert method.');
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function read(stream : IActionInputStream) : void
+		{
+			const numChildren : uint = stream.readUnsignedInt();
+			const qname : String = stream.readUTF();
+			const id : String = stream.readUTF();
+			
+			if(numChildren != 0 || qname != _qname)
+				ActionError.throwError(ActionError.INVALID_INPUT_STREAM);
+			
+			_id = id;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function write(stream : IActionOutputStream) : void
+		{
+			stream.writeUnsignedInt(0);
+			stream.writeUTF(_qname);
+			stream.writeUTF(id);
 		}
 		
 		/**

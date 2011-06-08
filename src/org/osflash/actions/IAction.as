@@ -1,10 +1,11 @@
 package org.osflash.actions
 {
+	import org.osflash.actions.stream.IActionIOStream;
 	import org.osflash.actions.stream.IActionOutputStream;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public interface IAction extends IActionTransactions
+	public interface IAction extends IActionTransactions, IActionIOStream
 	{
 		
 		function describe(stream : IActionOutputStream) : void;

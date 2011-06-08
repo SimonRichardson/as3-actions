@@ -1,11 +1,12 @@
 package org.osflash.actions
 {
+	import org.osflash.actions.stream.IActionIOStream;
 	import org.osflash.actions.stream.IActionOutputStream;
 	import org.osflash.signals.ISignal;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public interface IActionManager
+	public interface IActionManager extends IActionIOStream
 	{
 		
 		function register(actionClass : Class) : void;
@@ -23,7 +24,7 @@ package org.osflash.actions
 		function redo() : Boolean;
 		
 		function clear() : void;
-		
+				
 		function describe(stream : IActionOutputStream) : void;
 		
 		function get invalidated() : Boolean;

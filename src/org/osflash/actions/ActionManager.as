@@ -1,5 +1,6 @@
 package org.osflash.actions
 {
+	import org.osflash.actions.stream.IActionInputStream;
 	import org.osflash.actions.stream.IActionOutputStream;
 	import org.osflash.signals.ISignal;
 	import org.osflash.signals.Signal;
@@ -184,6 +185,38 @@ package org.osflash.actions
 		public function clear() : void
 		{
 			_actions.length = 0;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function read(stream : IActionInputStream) : void
+		{
+			
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function write(stream : IActionOutputStream) : void
+		{
+			// Writes the rest of the actions
+			const total : int = _actions.length;
+			
+			const valid : Boolean = (null != _current);
+			stream.writeBoolean(valid);
+			
+			// Write the current id, if there is one
+			if(valid)
+				stream.writeUTF(_current.id);
+			
+			stream.writeUnsignedInt(total);
+			
+			for(var i : int = 0; i<total; i++)
+			{
+				const action : IAction = _actions[i];
+				action.write(stream);
+			}
 		}
 		
 		/**

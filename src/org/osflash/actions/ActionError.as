@@ -24,6 +24,8 @@ package org.osflash.actions
 
 		public static const ACTION_CLASS_CAN_NOT_HAVE_PARAMETERS : int = 0x09;
 
+		public static const INVALID_INPUT_STREAM : int = 0x10;
+
 		public function ActionError(message : String)
 		{
 			super(message);
@@ -57,6 +59,8 @@ package org.osflash.actions
 					return 'invalidActionClass';
 				case ACTION_CLASS_CAN_NOT_HAVE_PARAMETERS:
 					return 'actionClassCanNotHaveParameters';
+				case INVALID_INPUT_STREAM:
+					return 'invalidInputStream';
 				default:
 					throw new ArgumentError('Given argument is Unknown.');  
 			}
@@ -102,6 +106,9 @@ package org.osflash.actions
 					break;
 				case ACTION_CLASS_CAN_NOT_HAVE_PARAMETERS:
 					throw new ActionError('ActionClass can not have non-optional parameters');
+					break;
+				case INVALID_INPUT_STREAM:
+					throw new ActionError('Invalid input stream');
 					break;
 				default:
 					throw new ArgumentError('Given argument is Unknown');
