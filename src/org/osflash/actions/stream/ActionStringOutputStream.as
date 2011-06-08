@@ -27,14 +27,16 @@ package org.osflash.actions.stream
 		 */
 		public function writeUTF(value : String) : void
 		{
-			value = ActionStreamTypes.UTF + value;
-			value += "\n";
+			const bit : String = value;
+			const length : int = bit.length;
+			
+			const packet : String = ActionStreamTypes.UTF + length + ":" + bit;
 			
 			const parts : Array = _buffer.split('');
-			parts.splice(position, 0, value);
+			parts.splice(position, 0, packet);
 			
 			_buffer = parts.join('');
-			_position += value.length;
+			_position += packet.length;
 		}
 		
 		/**
@@ -42,13 +44,16 @@ package org.osflash.actions.stream
 		 */
 		public function writeInt(value : int) : void
 		{
-			const string : String = ActionStreamTypes.INT + value.toString() + "\n";
+			const bit : String = value.toString();
+			const length : int = bit.length;
+			
+			const packet : String = ActionStreamTypes.INT + length + ":" + bit;
 			
 			const parts : Array = _buffer.split('');
-			parts.splice(position, 0, string);
+			parts.splice(position, 0, packet);
 			
 			_buffer = parts.join('');
-			_position += string.length;
+			_position += packet.length;
 		}
 		
 		/**
@@ -56,13 +61,16 @@ package org.osflash.actions.stream
 		 */
 		public function writeUnsignedInt(value : uint) : void
 		{
-			const string : String = ActionStreamTypes.UINT + value.toString() + "\n";
+			const bit : String = value.toString();
+			const length : int = bit.length;
+			
+			const packet : String = ActionStreamTypes.UINT + length + ":" + bit;
 			
 			const parts : Array = _buffer.split('');
-			parts.splice(position, 0, string);
+			parts.splice(position, 0, packet);
 			
 			_buffer = parts.join('');
-			_position += string.length;
+			_position += packet.length;
 		}
 		
 		/**
@@ -70,13 +78,16 @@ package org.osflash.actions.stream
 		 */
 		public function writeFloat(value : Number) : void
 		{
-			const string : String = ActionStreamTypes.FLOAT + value.toString() + "\n";
+			const bit : String = value.toString();
+			const length : int = bit.length;
+			
+			const packet : String = ActionStreamTypes.FLOAT + length + ":" + bit;
 			
 			const parts : Array = _buffer.split('');
-			parts.splice(position, 0, string);
+			parts.splice(position, 0, packet);
 			
 			_buffer = parts.join('');
-			_position += string.length;
+			_position += packet.length;
 		}
 		
 		/**
@@ -84,13 +95,16 @@ package org.osflash.actions.stream
 		 */
 		public function writeBoolean(value : Boolean) : void
 		{
-			const string : String = ActionStreamTypes.BOOLEAN + (value ? 'true' : 'false') + "\n";
+			const bit : String = value ? 'true' : 'false';
+			const length : int = bit.length;
+			
+			const packet : String = ActionStreamTypes.BOOLEAN + length + ":" + bit;
 			
 			const parts : Array = _buffer.split('');
-			parts.splice(position, 0, string);
+			parts.splice(position, 0, packet);
 			
 			_buffer = parts.join('');
-			_position += string.length;
+			_position += packet.length;
 		}
 		
 		/**
@@ -101,6 +115,15 @@ package org.osflash.actions.stream
 			_buffer = "";
 			_position = 0;
 		}
+		
+		/**
+		 * @private
+		 */
+		internal function get buffer() : String
+		{
+			return _buffer;
+		}
+		
 		
 		/**
 		 * @inheritDoc

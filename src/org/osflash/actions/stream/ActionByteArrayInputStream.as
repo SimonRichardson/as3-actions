@@ -1,5 +1,6 @@
 package org.osflash.actions.stream
 {
+	import flash.errors.IllegalOperationError;
 	import flash.utils.ByteArray;
 
 	/**
@@ -106,22 +107,41 @@ package org.osflash.actions.stream
 		/**
 		 * @inheritDoc
 		 */
-		public function get position() : uint
-		{
-			return _buffer.position;
-		}
-
-		/**
-		 * @inheritDoc
-		 */
-		public function set position(value : uint) : void
-		{
-			_buffer.position = value;
-		}
+		public function get position() : uint { return _buffer.position; }
+		public function set position(value : uint) : void { _buffer.position = value; }
 
 		public function toString() : String
 		{
-			return '';
+			const stream : IActionOutputStream = new ActionStringOutputStream();
+			
+			while(_buffer.position < _buffer.length)
+			{
+				switch(_buffer.readByte())
+				{
+					case ActionStreamTypes.UTF: 
+						stream.writeUTF(_buffer.readUTF()); 
+						break;
+					case ActionStreamTypes.INT: 
+						stream.writeInt(_buffer.readInt()); 
+						break;
+					case ActionStreamTypes.UINT: 
+						stream.writeUnsignedInt(_buffer.readUnsignedInt()); 
+						break;
+					case ActionStreamTypes.FLOAT: 
+						stream.writeFloat(_buffer.readFloat()); 
+						break;
+					case ActionStreamTypes.BOOLEAN: 
+						stream.writeBoolean(_buffer.readBoolean()); 
+						break;
+					default: 
+						throw new IllegalOperationError();
+						break;
+				}
+			}
+			
+			stream.position = 0;
+			
+			return stream.toString();
 		}
 	}
 }
