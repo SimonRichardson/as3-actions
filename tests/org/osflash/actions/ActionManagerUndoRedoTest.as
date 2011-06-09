@@ -114,5 +114,145 @@ package org.osflash.actions
 																action4
 																);
 		}
+		
+		[Test]
+		public function undo_then_verify_current_is_second_to_last_dispatched() : void
+		{
+			manager.register(ActionIntType);
+			manager.register(ActionUIntType);
+			manager.register(ActionBooleanType);
+			
+			const action0 : IAction = new ActionBooleanType();
+			const action1 : IAction = new ActionIntType();
+			const action2 : IAction = new ActionIntType();
+			const action3 : IAction = new ActionBooleanType();
+			const action4 : IAction = new ActionUIntType();
+			
+			manager.dispatch(action0);
+			manager.dispatch(action1);
+			manager.dispatch(action2);
+			manager.dispatch(action3);
+			manager.dispatch(action4);
+			
+			manager.undo();
+			
+			assertEquals('IActionManager current should equal action3', 
+																manager.current, 
+																action3
+																);
+		}
+		
+		[Test]
+		public function undo_then_verify_current_is_third_to_last_dispatched() : void
+		{
+			manager.register(ActionIntType);
+			manager.register(ActionUIntType);
+			manager.register(ActionBooleanType);
+			
+			const action0 : IAction = new ActionBooleanType();
+			const action1 : IAction = new ActionIntType();
+			const action2 : IAction = new ActionIntType();
+			const action3 : IAction = new ActionBooleanType();
+			const action4 : IAction = new ActionUIntType();
+			
+			manager.dispatch(action0);
+			manager.dispatch(action1);
+			manager.dispatch(action2);
+			manager.dispatch(action3);
+			manager.dispatch(action4);
+			
+			manager.undo();
+			manager.undo();
+			
+			assertEquals('IActionManager current should equal action2', 
+																manager.current, 
+																action2
+																);
+		}
+		
+		[Test]
+		public function undo_then_verify_current_is_first_dispatched() : void
+		{
+			manager.register(ActionIntType);
+			manager.register(ActionUIntType);
+			manager.register(ActionBooleanType);
+			
+			const action0 : IAction = new ActionBooleanType();
+			const action1 : IAction = new ActionIntType();
+			const action2 : IAction = new ActionIntType();
+			const action3 : IAction = new ActionBooleanType();
+			const action4 : IAction = new ActionUIntType();
+			
+			manager.dispatch(action0);
+			manager.dispatch(action1);
+			manager.dispatch(action2);
+			manager.dispatch(action3);
+			manager.dispatch(action4);
+			
+			manager.undo();
+			manager.undo();
+			manager.undo();
+			manager.undo();
+			
+			assertEquals('IActionManager current should equal action0', 
+																manager.current, 
+																action0
+																);
+		}
+		
+		[Test]
+		public function undo_all_then_verify_current_is_null() : void
+		{
+			manager.register(ActionIntType);
+			manager.register(ActionUIntType);
+			manager.register(ActionBooleanType);
+			
+			const action0 : IAction = new ActionBooleanType();
+			const action1 : IAction = new ActionIntType();
+			const action2 : IAction = new ActionIntType();
+			const action3 : IAction = new ActionBooleanType();
+			const action4 : IAction = new ActionUIntType();
+			
+			manager.dispatch(action0);
+			manager.dispatch(action1);
+			manager.dispatch(action2);
+			manager.dispatch(action3);
+			manager.dispatch(action4);
+			
+			manager.undo();
+			manager.undo();
+			manager.undo();
+			manager.undo();
+			manager.undo();
+			
+			assertNull('IActionManager current should equal null', manager.current);
+		}
+		
+		[Test]
+		public function excesive_undo_calls_should_verify_current_is_null() : void
+		{
+			manager.register(ActionIntType);
+			manager.register(ActionUIntType);
+			manager.register(ActionBooleanType);
+			
+			const action0 : IAction = new ActionBooleanType();
+			const action1 : IAction = new ActionIntType();
+			const action2 : IAction = new ActionIntType();
+			const action3 : IAction = new ActionBooleanType();
+			const action4 : IAction = new ActionUIntType();
+			
+			manager.dispatch(action0);
+			manager.dispatch(action1);
+			manager.dispatch(action2);
+			manager.dispatch(action3);
+			manager.dispatch(action4);
+			
+			for(var i : int = 0; i < 1000; i++)
+			{
+				manager.undo();
+			}
+			
+			assertNull('IActionManager current should equal null', manager.current);
+		}
 	}
 }
