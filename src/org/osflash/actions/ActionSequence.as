@@ -113,7 +113,9 @@ package org.osflash.actions
 		 */
 		public function remove(action : IAction) : IAction
 		{
-			return removeAt(length - 1);
+			const index : int = getIndex(action);
+			if(index < 0) return null;
+			return removeAt(index);
 		}
 
 		/**
@@ -157,7 +159,7 @@ package org.osflash.actions
 		{
 			return null != _actions ? _actions.indexOf(action) >= 0 : false;
 		}
-
+			
 		/**
 		 * @inheritDoc
 		 */

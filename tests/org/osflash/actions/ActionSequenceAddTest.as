@@ -5,7 +5,7 @@ package org.osflash.actions
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public class ActionSequenceTest
+	public class ActionSequenceAddTest
 	{
 		
 		protected var sequence : IActionSequence;
