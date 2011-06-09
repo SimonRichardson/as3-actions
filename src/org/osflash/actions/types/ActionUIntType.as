@@ -1,8 +1,8 @@
 package org.osflash.actions.types
 {
 	import org.osflash.actions.Action;
-	import org.osflash.actions.stream.IActionInputStream;
-	import org.osflash.actions.stream.IActionOutputStream;
+	import org.osflash.stream.IStreamInput;
+	import org.osflash.stream.IStreamOutput;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
@@ -48,7 +48,7 @@ package org.osflash.actions.types
 		/**
 		 * @inheritDoc
 		 */
-		override public function read(stream : IActionInputStream) : void
+		override public function read(stream : IStreamInput) : void
 		{
 			super.read(stream);
 			
@@ -58,7 +58,7 @@ package org.osflash.actions.types
 		/**
 		 * @inheritDoc
 		 */
-		override public function write(stream : IActionOutputStream) : void
+		override public function write(stream : IStreamOutput) : void
 		{
 			super.write(stream);
 			
@@ -68,7 +68,7 @@ package org.osflash.actions.types
 		/**
 		 * @inheritDoc
 		 */
-		override public function describe(stream : IActionOutputStream) : void
+		override public function describe(stream : IStreamOutput) : void
 		{
 			super.describe(stream);
 			

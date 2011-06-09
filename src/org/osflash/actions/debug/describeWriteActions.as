@@ -1,14 +1,14 @@
 package org.osflash.actions.debug
 {
-	import org.osflash.actions.stream.ActionByteArrayInputStream;
-	import org.osflash.actions.stream.IActionInputStream;
-	import org.osflash.actions.stream.IActionOutputStream;
+	import org.osflash.stream.IStreamInput;
+	import org.osflash.stream.IStreamOutput;
+	import org.osflash.stream.types.bytearray.StreamByteArrayInput;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public function describeWriteActions(stream : IActionOutputStream) : XML
+	public function describeWriteActions(stream : IStreamOutput) : XML
 	{
-		const input : IActionInputStream = new ActionByteArrayInputStream(stream);
+		const input : IStreamInput = new StreamByteArrayInput(stream);
 		return describeReadActions(input);
 	}
 }

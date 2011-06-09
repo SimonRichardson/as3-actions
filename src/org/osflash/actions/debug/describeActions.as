@@ -1,14 +1,14 @@
 package org.osflash.actions.debug
 {
 	import org.osflash.actions.IActionManager;
-	import org.osflash.actions.stream.ActionByteArrayOutputStream;
-	import org.osflash.actions.stream.IActionOutputStream;
+	import org.osflash.stream.IStreamOutput;
+	import org.osflash.stream.types.bytearray.StreamByteArrayOutput;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
 	public function describeActions(manager : IActionManager) : String
 	{
-		const stream : IActionOutputStream = new ActionByteArrayOutputStream();
+		const stream : IStreamOutput = new StreamByteArrayOutput();
 		manager.describe(stream);
 		
 		const actions : XML = describeWriteActions(stream);

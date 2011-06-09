@@ -1,7 +1,7 @@
 package org.osflash.actions
 {
-	import org.osflash.actions.stream.IActionInputStream;
-	import org.osflash.actions.stream.IActionOutputStream;
+	import org.osflash.stream.IStreamInput;
+	import org.osflash.stream.IStreamOutput;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
@@ -179,7 +179,7 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */	
-		final override public function read(stream : IActionInputStream) : void
+		final override public function read(stream : IStreamInput) : void
 		{
 			if(null == registry)
 				ActionError.throwError(ActionError.INVALID_ACTION_CLASS_REGISTRY);
@@ -221,7 +221,7 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */
-		final override public function write(stream : IActionOutputStream) : void
+		final override public function write(stream : IStreamOutput) : void
 		{
 			const total : int = _actions.length;
 			
@@ -240,7 +240,7 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */	
-		override public function describe(stream : IActionOutputStream) : void
+		override public function describe(stream : IStreamOutput) : void
 		{
 			const total : int = _actions.length;
 			

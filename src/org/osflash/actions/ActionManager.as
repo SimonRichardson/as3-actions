@@ -1,10 +1,11 @@
 package org.osflash.actions
 {
-	import flash.errors.IllegalOperationError;
-	import org.osflash.actions.stream.IActionInputStream;
-	import org.osflash.actions.stream.IActionOutputStream;
 	import org.osflash.signals.ISignal;
 	import org.osflash.signals.Signal;
+	import org.osflash.stream.IStreamInput;
+	import org.osflash.stream.IStreamOutput;
+
+	import flash.errors.IllegalOperationError;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
@@ -224,7 +225,7 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */
-		public function read(stream : IActionInputStream) : void
+		public function read(stream : IStreamInput) : void
 		{
 			if(null == _registry)
 				ActionError.throwError(ActionError.INVALID_ACTION_CLASS_REGISTRY);
@@ -272,7 +273,7 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */
-		public function write(stream : IActionOutputStream) : void
+		public function write(stream : IStreamOutput) : void
 		{
 			// Writes the rest of the actions
 			const total : int = _actions.length;
@@ -296,7 +297,7 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */
-		public function describe(stream : IActionOutputStream) : void
+		public function describe(stream : IStreamOutput) : void
 		{
 			// Writes the rest of the actions
 			const total : int = _actions.length;

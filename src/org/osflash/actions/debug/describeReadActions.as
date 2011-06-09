@@ -1,10 +1,10 @@
 package org.osflash.actions.debug
 {
-	import org.osflash.actions.stream.IActionInputStream;
+	import org.osflash.stream.IStreamInput;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public function describeReadActions(stream : IActionInputStream) : XML
+	public function describeReadActions(stream : IStreamInput) : XML
 	{
 		const result : XML = <actions/>;
 		
@@ -34,12 +34,12 @@ package org.osflash.actions.debug
 		return result;
 	}
 }
-import org.osflash.actions.stream.ActionStreamTypes;
-import org.osflash.actions.stream.IActionInputStream;
+import org.osflash.stream.IStreamInput;
+import org.osflash.stream.StreamTypes;
 
 import flash.errors.IllegalOperationError;
 
-function describeSubWriteActions(	stream : IActionInputStream, 
+function describeSubWriteActions(	stream : IStreamInput, 
 									node : XML, 
 									numNodes : uint, 
 									active : Boolean
@@ -63,7 +63,7 @@ function describeSubWriteActions(	stream : IActionInputStream,
 	}
 }
 
-function describeProperties(stream : IActionInputStream) : XML
+function describeProperties(stream : IStreamInput) : XML
 {
 	const result : XML = <properties/>;
 	
@@ -72,22 +72,22 @@ function describeProperties(stream : IActionInputStream) : XML
 	{
 		switch(stream.nextType)
 		{
-			case ActionStreamTypes.UTF: 
+			case StreamTypes.UTF: 
 				result.appendChild(<property value={stream.readUTF()}/>); 
 				break;
-			case ActionStreamTypes.INT: 
+			case StreamTypes.INT: 
 				result.appendChild(<property value={stream.readInt()}/>); 
 				break;
-			case ActionStreamTypes.UINT: 
+			case StreamTypes.UINT: 
 				result.appendChild(<property value={stream.readUnsignedInt()}/>);
 				break;
-			case ActionStreamTypes.FLOAT: 
+			case StreamTypes.FLOAT: 
 				result.appendChild(<property value={stream.readFloat()}/>); 
 				break;
-			case ActionStreamTypes.BOOLEAN: 
+			case StreamTypes.BOOLEAN: 
 				result.appendChild(<property value={stream.readBoolean()}/>); 
 				break;
-			case ActionStreamTypes.EOF:
+			case StreamTypes.EOF:
 				// Ignore EOF
 				break;
 			default: 

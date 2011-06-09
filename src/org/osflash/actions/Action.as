@@ -1,9 +1,10 @@
 package org.osflash.actions
 {
-	import flash.utils.getQualifiedClassName;
-	import org.osflash.actions.stream.IActionInputStream;
-	import org.osflash.actions.stream.IActionOutputStream;
 	import org.osflash.actions.uid.UID;
+	import org.osflash.stream.IStreamInput;
+	import org.osflash.stream.IStreamOutput;
+
+	import flash.utils.getQualifiedClassName;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
@@ -52,7 +53,7 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */
-		public function read(stream : IActionInputStream) : void
+		public function read(stream : IStreamInput) : void
 		{
 			const qname : String = stream.readUTF();
 			const id : String = stream.readUTF();
@@ -68,7 +69,7 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */
-		public function write(stream : IActionOutputStream) : void
+		public function write(stream : IStreamOutput) : void
 		{
 			stream.writeUTF(_qname);
 			stream.writeUTF(id);
@@ -79,7 +80,7 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */
-		public function describe(stream : IActionOutputStream) : void
+		public function describe(stream : IStreamOutput) : void
 		{
 			stream.writeUTF(_qname);
 			stream.writeUTF(id);

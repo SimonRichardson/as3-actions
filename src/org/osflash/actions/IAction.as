@@ -1,14 +1,14 @@
 package org.osflash.actions
 {
-	import org.osflash.actions.stream.IActionIOStream;
-	import org.osflash.actions.stream.IActionOutputStream;
+	import org.osflash.stream.IStreamIO;
+	import org.osflash.stream.IStreamOutput;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
-	public interface IAction extends IActionTransactions, IActionIOStream
+	public interface IAction extends IActionTransactions, IStreamIO
 	{
 		
-		function describe(stream : IActionOutputStream) : void;
+		function describe(stream : IStreamOutput) : void;
 		
 		function get id() : String;
 		function set id(value : String) : void;
