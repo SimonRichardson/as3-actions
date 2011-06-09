@@ -16,13 +16,15 @@ package org.osflash.actions
 		
 		function remove(action : IAction) : IAction;
 		
-		function removeAt(action : IAction, index : int) : IAction;
+		function removeAt(index : int) : IAction;
+		
+		function removeAll() : void;
 		
 		function contains(action : IAction) : Boolean;
 		
 		function find(id : String) : IAction;
 		
-		function get numActions() : int;
+		function get length() : int;
 		
 		function get registry() : IActionClassRegistry;
 		function set registry(value : IActionClassRegistry) : void;

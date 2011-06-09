@@ -60,7 +60,7 @@ package org.osflash.actions
 		 */
 		public function add(action : IAction) : IAction
 		{
-			return addAt(action, numActions);
+			return addAt(action, length);
 		}
 
 		/**
@@ -69,7 +69,7 @@ package org.osflash.actions
 		public function addAt(action : IAction, index : int) : IAction
 		{
 			if(index < 0) throw new RangeError('Given index is out of range (index=' + index + ')');
-			if(index > numActions) throw new RangeError('Given index is outside of dense length');
+			if(index > length) throw new RangeError('Given index is outside of dense length');
 			
 			// Create the children if it was set to null.			
 			if(null == _actions) _actions = new Vector.<IAction>();
@@ -79,7 +79,7 @@ package org.osflash.actions
 			
 			if(index == 0)
 				_actions.unshift(action);
-			else if(index == numActions)
+			else if(index == length)
 				_actions.push(action);
 			else
 				_actions.splice(index, 1, action);
@@ -92,8 +92,8 @@ package org.osflash.actions
 		 */
 		public function getAt(index : int) : IAction
 		{
-			if(index < 0 || index >= numActions) throw new RangeError('Given index is out of ' + 
-									'range (index=' + index + ', numActions=' + numActions + ')');
+			if(index < 0 || index >= length) throw new RangeError('Given index is out of ' + 
+									'range (index=' + index + ', numActions=' + length + ')');
 			return _actions[index];
 		}
 
@@ -102,7 +102,7 @@ package org.osflash.actions
 		 */
 		public function getIndex(action : IAction) : int
 		{
-			if(numActions == 0 || !contains(action)) 
+			if(length == 0 || !contains(action)) 
 				ActionError.throwError(ActionError.ACTION_DOES_NOT_EXIST);
 			
 			return _actions.indexOf(action);
@@ -113,30 +113,41 @@ package org.osflash.actions
 		 */
 		public function remove(action : IAction) : IAction
 		{
-			return removeAt(action, numActions - 1);
+			return removeAt(length - 1);
 		}
 
 		/**
 		 * @inheritDoc
 		 */
-		public function removeAt(action : IAction, index : int) : IAction
+		public function removeAt(index : int) : IAction
 		{
 			if(null == _actions) return null;
 			
-			if(index < 0 || index >= numActions) throw new RangeError('Given index is out of ' + 
-									'range (index=' + index + ', numChildren=' + numActions + ')');
+			if(index < 0 || index >= length) throw new RangeError('Given index is out of ' + 
+									'range (index=' + index + ', numChildren=' + length + ')');
 			
 			const actions : Vector.<IAction> = _actions.splice(index, 1);
 			if(actions.length == 0) ActionError.throwError(ActionError.REMOVE_ACTION_LENGTH_ZERO);
 			
 			const node : IAction = actions[0];
-			if(node != action) 
+			if(null == node) 
 				ActionError.throwError(ActionError.REMOVE_ACTION_MISMATCH);
 			
-			if(numActions == 0)
+			if(length == 0)
 				_actions = null;
 			
 			return node;
+		}
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function removeAll() : void
+		{
+			while(null != _actions && _actions.length)
+			{
+				removeAt(_actions.length - 1);
+			}
 		}
 
 		/**
@@ -246,7 +257,7 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */
-		public function get numActions() : int
+		public function get length() : int
 		{
 			return null != _actions ? _actions.length : 0;
 		}

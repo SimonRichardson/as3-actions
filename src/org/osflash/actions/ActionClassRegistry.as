@@ -112,7 +112,7 @@ package org.osflash.actions
 				if(!valid) return false;
 				
 				const sequence : IActionSequence = IActionSequence(action);
-				const total : int = sequence.numActions;
+				const total : int = sequence.length;
 				for(var i : int = 0; i < total; i++)
 				{
 					valid = false;
