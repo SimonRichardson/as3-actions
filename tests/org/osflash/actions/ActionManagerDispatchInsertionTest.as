@@ -224,5 +224,112 @@ package org.osflash.actions
 										[actions[0], actions[1], actions[2], actions[3], actions[4]]
 										);
 		}
+		
+		[Test]
+		public function verify_orphanedSignal_for_correct_orphaned_actions_with_mutliple_removals() : void
+		{
+			manager.register(ActionIntType);
+			manager.register(ActionUIntType);
+			manager.register(ActionUtfType);
+			manager.register(ActionBooleanType);
+			
+			const action0 : IAction = new ActionBooleanType();
+			const action1 : IAction = new ActionUtfType();
+			const action2 : IAction = new ActionIntType();
+			const action3 : IAction = new ActionBooleanType();
+			const action4 : IAction = new ActionUIntType();
+			
+			const callback0 : Function = async.add(verifyOrphanedActionsShouldEqual2, 500);
+			manager.orphanedSignal.add(callback0);
+			
+			const callback1 : Function = async.add(verifyOrphanedActionsShouldEqualArray2, 500);
+			const binding0 : ISignalBinding = manager.orphanedSignal.add(callback1);
+			binding0.params = [action3, action4];
+			
+			manager.dispatch(action0);
+			manager.dispatch(action1);
+			manager.dispatch(action2);
+			manager.dispatch(action3);
+			manager.dispatch(action4);
+			
+			manager.undo();
+			manager.undo();
+			
+			const action5 : IAction = new ActionBooleanType();
+			const action6 : IAction = new ActionUIntType();
+			
+			manager.dispatch(action5);
+			manager.dispatch(action6);
+			
+			manager.orphanedSignal.remove(callback0);
+			manager.orphanedSignal.remove(callback1);
+			
+			const callback2 : Function = async.add(verifyOrphanedActionsShouldEqual4, 500);
+			manager.orphanedSignal.add(callback2);
+			
+			const callback3 : Function = async.add(verifyOrphanedActionsShouldEqualArray4, 500);
+			const binding1 : ISignalBinding = manager.orphanedSignal.add(callback3);
+			binding1.params = [action1, action2, action5, action6];
+			
+			manager.undo();
+			manager.undo();
+			manager.undo();
+			manager.undo();
+			
+			const action7 : IAction = new ActionBooleanType();
+			const action8 : IAction = new ActionBooleanType();
+			const action9 : IAction = new ActionBooleanType();
+			
+			manager.dispatch(action7);
+			manager.dispatch(action8);
+			manager.dispatch(action9);
+		}
+		
+		/**
+		 * @private
+		 */
+		private function verifyOrphanedActionsShouldEqual2(actions : Vector.<IAction>) : void
+		{
+			assertEquals('Orphaned actions length should be 2', 2, actions.length);
+		}
+		
+		/**
+		 * @private
+		 */
+		private function verifyOrphanedActionsShouldEqualArray2(	actions : Vector.<IAction>, 
+																	action0 : IAction,
+																	action1 : IAction
+																	) : void
+		{
+			assertEqualsArrays('Orphaned actions length should equal', 
+																	[action0, action1], 
+																	[actions[0], actions[1]]
+																	);
+		}
+		
+		/**
+		 * @private
+		 */
+		private function verifyOrphanedActionsShouldEqual4(actions : Vector.<IAction>) : void
+		{
+			assertEquals('Orphaned actions length should be 4', 4, actions.length);
+		}
+		
+		/**
+		 * @private
+		 */
+		private function verifyOrphanedActionsShouldEqualArray4(	actions : Vector.<IAction>, 
+																	action0 : IAction,
+																	action1 : IAction,
+																	action2 : IAction,
+																	action3 : IAction
+																	) : void
+		{
+			assertEqualsArrays('Orphaned actions length should equal', 
+													[action0, action1, action2, action3], 
+													[actions[0], actions[1], actions[2], actions[3]]
+													);
+		}
+		
 	}
 }
