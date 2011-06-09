@@ -137,19 +137,26 @@ package org.osflash.actions
 			
 			// Revert the current one
 			revert(_current);
-			
+						
 			// Revert the previous items
 			var index : int = _actions.indexOf(_current);
 			index = index < 0 ? 0 : index + 1;
 			
 			// Set the current position
-			var item : IAction = _actions[index];
-			_current = item;
-			
-			while(index < total)
+			if(index >= _actions.length)
 			{
-				revert(_actions[index]);
-				index++;
+				_current = null;
+			}
+			else
+			{
+				const item : IAction = _actions[index];
+				_current = item;
+				
+				while(index < total)
+				{
+					revert(_actions[index]);
+					index++;
+				}
 			}
 			
 			if(invalidated) 

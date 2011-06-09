@@ -4,6 +4,7 @@ package org.osflash.actions
 	public class AllTests
 	{
 		
-		public var _ActionTest:ActionManagerTest;
+		public var _ActionMangerTest:ActionManagerTest;
+		public var _ActionManagerUndoRedoTest:ActionManagerUndoRedoTest;
 	}
 }
