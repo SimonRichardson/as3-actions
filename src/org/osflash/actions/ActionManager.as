@@ -1,5 +1,6 @@
 package org.osflash.actions
 {
+	import flash.errors.IllegalOperationError;
 	import org.osflash.actions.stream.IActionInputStream;
 	import org.osflash.actions.stream.IActionOutputStream;
 	import org.osflash.signals.ISignal;
@@ -45,6 +46,11 @@ package org.osflash.actions
 		 */
 		private const _revertSignal : ISignal = new Signal(IAction);
 		
+		/**
+		 * @private
+		 */
+		private const _orphanedSignal : ISignal = new Signal(Vector.<IAction>);
+		
 		public function ActionManager(registry : IActionClassRegistry = null)
 		{			
 			_actions = new Vector.<IAction>();
@@ -77,18 +83,36 @@ package org.osflash.actions
 			
 			commit(action);
 			
-			// TODO : work out a number of history actions limit!
-			/*
-			var index : int = _actions.length;
-			while(--index > -1)
+			// Locate current
+			var orphaned : Vector.<IAction>;
+			if(null == _current)
 			{
-				const item : IAction = _actions[index];
-				if(item == _current)
-					continue;
-				
-				_actions.splice(index, 1);
+				// trash the whole stack?
+				if(_actions.length > 0)
+				{
+					orphaned = _actions.concat();
+					_actions.length = 0;
+					orphanedSignal.dispatch(orphaned.reverse());
+				}
 			}
-			*/
+			else if(_actions[0] != _current)
+			{
+				// Only change if we're not at the head of the stack, as there is no need!
+				var index : int = _actions.length;
+				while(--index > -1)
+				{
+					const item : IAction = _actions[index];
+					if(item == _current)
+						break;
+				}
+				
+				if(index < 0 || index > _actions.length)
+					throw new IllegalOperationError('Removing future nodes error');
+				
+				orphaned = _actions.splice(0, index);
+				orphanedSignal.dispatch(orphaned.reverse());
+			}
+			
 			_actions.unshift(action);
 			_current = action;
 			
@@ -107,7 +131,7 @@ package org.osflash.actions
 			
 			action.commit();
 			
-			_commitSignal.dispatch(action);
+			commitSignal.dispatch(action);
 		}
 	
 		/**
@@ -122,7 +146,7 @@ package org.osflash.actions
 			
 			action.revert();
 			
-			_revertSignal.dispatch(action);
+			revertSignal.dispatch(action);
 		}
 		
 		/**
@@ -160,7 +184,7 @@ package org.osflash.actions
 			}
 			
 			if(invalidated) 
-				_changeSignal.dispatch(_current);
+				changeSignal.dispatch(_current);
 						
 			return true;
 		}
@@ -182,7 +206,7 @@ package org.osflash.actions
 				
 			_current = item;
 				
-			if(invalidated) _changeSignal.dispatch(_current);
+			if(invalidated) changeSignal.dispatch(_current);
 				
 			return true;
 		}
@@ -325,6 +349,11 @@ package org.osflash.actions
 		 * @inheritDoc
 		 */
 		public function get revertSignal() : ISignal { return _revertSignal; }
+		
+		/**
+		 * @private
+		 */
+		public function get orphanedSignal() : ISignal { return _orphanedSignal; }
 		
 		/**
 		 * @inheritDoc

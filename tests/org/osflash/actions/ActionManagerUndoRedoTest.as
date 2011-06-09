@@ -411,6 +411,5 @@ package org.osflash.actions
 																action1
 																);
 		}
-		
 	}
 }

@@ -39,6 +39,8 @@ package org.osflash.actions
 		
 		function get revertSignal() : ISignal;
 		
+		function get orphanedSignal() : ISignal;
+		
 		function toString() : String;
 	}
 }
