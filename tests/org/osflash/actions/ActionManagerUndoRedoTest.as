@@ -254,5 +254,163 @@ package org.osflash.actions
 			
 			assertNull('IActionManager current should equal null', manager.current);
 		}
+		
+		[Test]
+		public function verify_current_is_last_dispatched_after_undo_then_redo() : void
+		{
+			manager.register(ActionIntType);
+			manager.register(ActionUIntType);
+			manager.register(ActionBooleanType);
+			
+			const action0 : IAction = new ActionBooleanType();
+			const action1 : IAction = new ActionIntType();
+			const action2 : IAction = new ActionIntType();
+			const action3 : IAction = new ActionBooleanType();
+			const action4 : IAction = new ActionUIntType();
+			
+			manager.dispatch(action0);
+			manager.dispatch(action1);
+			manager.dispatch(action2);
+			manager.dispatch(action3);
+			manager.dispatch(action4);
+			
+			manager.undo();
+			manager.redo();
+			
+			assertEquals('IActionManager current should equal last dispatch', 
+																manager.current, 
+																action4
+																);
+		}
+		
+		[Test]
+		public function verify_current_is_last_dispatched_after_undo_then_redo_twice() : void
+		{
+			manager.register(ActionIntType);
+			manager.register(ActionUIntType);
+			manager.register(ActionBooleanType);
+			
+			const action0 : IAction = new ActionBooleanType();
+			const action1 : IAction = new ActionIntType();
+			const action2 : IAction = new ActionIntType();
+			const action3 : IAction = new ActionBooleanType();
+			const action4 : IAction = new ActionUIntType();
+			
+			manager.dispatch(action0);
+			manager.dispatch(action1);
+			manager.dispatch(action2);
+			manager.dispatch(action3);
+			manager.dispatch(action4);
+			
+			manager.undo();
+			manager.redo();
+			manager.redo();
+			
+			assertEquals('IActionManager current should equal last dispatch', 
+																manager.current, 
+																action4
+																);
+		}
+		
+		[Test]
+		public function verify_current_is_last_dispatched_after_undo_then_redo_excessively() : void
+		{
+			manager.register(ActionIntType);
+			manager.register(ActionUIntType);
+			manager.register(ActionBooleanType);
+			
+			const action0 : IAction = new ActionBooleanType();
+			const action1 : IAction = new ActionIntType();
+			const action2 : IAction = new ActionIntType();
+			const action3 : IAction = new ActionBooleanType();
+			const action4 : IAction = new ActionUIntType();
+			
+			manager.dispatch(action0);
+			manager.dispatch(action1);
+			manager.dispatch(action2);
+			manager.dispatch(action3);
+			manager.dispatch(action4);
+			
+			manager.undo();
+			
+			for(var i : int = 0; i<1000; i++)
+			{
+				manager.redo();
+			}
+						
+			assertEquals('IActionManager current should equal last dispatch', 
+																manager.current, 
+																action4
+																);
+		}
+		
+		[Test]
+		public function verify_current_is_third_dispatch_after_4_undos_then_2_redos() : void
+		{
+			manager.register(ActionIntType);
+			manager.register(ActionUIntType);
+			manager.register(ActionBooleanType);
+			
+			const action0 : IAction = new ActionBooleanType();
+			const action1 : IAction = new ActionIntType();
+			const action2 : IAction = new ActionIntType();
+			const action3 : IAction = new ActionBooleanType();
+			const action4 : IAction = new ActionUIntType();
+			
+			manager.dispatch(action0);
+			manager.dispatch(action1);
+			manager.dispatch(action2);
+			manager.dispatch(action3);
+			manager.dispatch(action4);
+			
+			manager.undo();
+			manager.undo();
+			manager.undo();
+			manager.undo();
+			
+			manager.redo();
+			manager.redo();
+						
+			assertEquals('IActionManager current should equal third dispatched', 
+																manager.current, 
+																action2
+																);
+		}
+		
+		[Test]
+		public function verify_current_is_second_dispatch_after_2_undos_then_2_redos_then_3_undos() : void
+		{
+			manager.register(ActionIntType);
+			manager.register(ActionUIntType);
+			manager.register(ActionBooleanType);
+			
+			const action0 : IAction = new ActionBooleanType();
+			const action1 : IAction = new ActionIntType();
+			const action2 : IAction = new ActionIntType();
+			const action3 : IAction = new ActionBooleanType();
+			const action4 : IAction = new ActionUIntType();
+			
+			manager.dispatch(action0);
+			manager.dispatch(action1);
+			manager.dispatch(action2);
+			manager.dispatch(action3);
+			manager.dispatch(action4);
+			
+			manager.undo();
+			manager.undo();
+			
+			manager.redo();
+			manager.redo();
+			
+			manager.undo();
+			manager.undo();
+			manager.undo();
+						
+			assertEquals('IActionManager current should equal third dispatched', 
+																manager.current, 
+																action1
+																);
+		}
+		
 	}
 }
