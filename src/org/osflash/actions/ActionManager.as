@@ -297,6 +297,16 @@ package org.osflash.actions
 		/**
 		 * @inheritDoc
 		 */
+		public function get length() : int { return _actions.length; }
+		
+		/**
+		 * @inheritDoc
+		 */
+		public function get current() : IAction { return _current; }
+		
+		/**
+		 * @inheritDoc
+		 */
 		public function get commitSignal() : ISignal { return _commitSignal; }
 		
 		/**

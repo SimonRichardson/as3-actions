@@ -4,6 +4,6 @@ package org.osflash.actions
 	public class AllTests
 	{
 		
-		public var _ActionTest:ActionTest;
+		public var _ActionTest:ActionManagerTest;
 	}
 }

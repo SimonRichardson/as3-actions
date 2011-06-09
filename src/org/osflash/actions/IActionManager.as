@@ -29,6 +29,10 @@ package org.osflash.actions
 		
 		function get invalidated() : Boolean;
 		
+		function get length() : int;
+		
+		function get current() : IAction;
+		
 		function get commitSignal() : ISignal;
 		
 		function get changeSignal() : ISignal;
