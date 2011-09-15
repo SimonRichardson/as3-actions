@@ -8,7 +8,7 @@ package org.osflash.actions
 	import org.osflash.actions.types.ActionIntType;
 	import org.osflash.actions.types.ActionUIntType;
 	import org.osflash.actions.types.ActionUtfType;
-	import org.osflash.signals.ISignalBinding;
+	import org.osflash.signals.ISlot;
 	/**
 	 * @author Simon Richardson - simon@ustwo.co.uk
 	 */
@@ -82,7 +82,7 @@ package org.osflash.actions
 			manager.orphanedSignal.add(async.add(verifyOrphanedActionsShouldEqual3, 500));
 			
 			const callback : Function = async.add(verifyOrphanedActionsShouldEqualArray, 500);
-			const binding : ISignalBinding = manager.orphanedSignal.add(callback);
+			const binding : ISlot = manager.orphanedSignal.add(callback);
 			binding.params = [action2, action3, action4];
 			
 			manager.dispatch(action0);
@@ -177,7 +177,7 @@ package org.osflash.actions
 			manager.orphanedSignal.add(async.add(verifyOrphanedActionsShouldEqual5, 500));
 			
 			const callback : Function = async.add(verifyAllOrphanedActionsShouldEqualArray, 500);
-			const binding : ISignalBinding = manager.orphanedSignal.add(callback);
+			const binding : ISlot = manager.orphanedSignal.add(callback);
 			binding.params = [action0, action1, action2, action3, action4];
 			
 			manager.dispatch(action0);
@@ -243,7 +243,7 @@ package org.osflash.actions
 			manager.orphanedSignal.add(callback0);
 			
 			const callback1 : Function = async.add(verifyOrphanedActionsShouldEqualArray2, 500);
-			const binding0 : ISignalBinding = manager.orphanedSignal.add(callback1);
+			const binding0 : ISlot = manager.orphanedSignal.add(callback1);
 			binding0.params = [action3, action4];
 			
 			manager.dispatch(action0);
@@ -268,7 +268,7 @@ package org.osflash.actions
 			manager.orphanedSignal.add(callback2);
 			
 			const callback3 : Function = async.add(verifyOrphanedActionsShouldEqualArray4, 500);
-			const binding1 : ISignalBinding = manager.orphanedSignal.add(callback3);
+			const binding1 : ISlot = manager.orphanedSignal.add(callback3);
 			binding1.params = [action1, action2, action5, action6];
 			
 			manager.undo();
